@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSV Top5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>CSV Top5 查看器</h1>
+
+    <!-- 拖拽区域 -->
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-text">拖拽 CSV 文件到这里</div>
+      <div class="drop-hint">或点击选择文件</div>
+      <input type="file" id="f" accept=".csv">
+    </div>
+
+    <!-- 结果展示区 -->
+    <div id="out"></div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
