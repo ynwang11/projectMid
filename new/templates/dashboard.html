@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控制台 - {{ tool.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-layer-group"></i> 心理健康检测系统
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="{{ url_for('dashboard', tool_name='tool_a') }}" 
+                   class="menu-item {{ 'active' if active_tool == 'tool_a' else '' }}">
+                    <i class="fas fa-hammer"></i> 手动上传数据
+                </a>
+                
+                <a href="{{ url_for('dashboard', tool_name='tool_b') }}" 
+                   class="menu-item {{ 'active' if active_tool == 'tool_b' else '' }}">
+                    <i class="fas fa-chart-line"></i> 实时检测
+                </a>
+                <a href="{{ url_for('dashboard', tool_name='tool_history') }}" 
+                class="menu-item {{ 'active' if active_tool == 'tool_history' else '' }}">
+                    <i class="fas fa-history"></i> 历史数据
+                </a>                
+                <a href="{{ url_for('dashboard', tool_name='tool_c') }}" 
+                   class="menu-item {{ 'active' if active_tool == 'tool_c' else '' }}">
+                    <i class="fas fa-cog"></i> 工具 C
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="{{ url_for('index') }}">返回首页</a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            
+            <header class="top-nav">
+                <div class="nav-left">
+                    <button class="action-btn">切换模式</button>
+                    <button class="action-btn">导出数据</button>
+                    <span class="status-tag">状态: 运行中</span>
+                </div>
+                
+                <div class="nav-right">
+                    <span class="user-info">
+                        <i class="fas fa-user-circle"></i> {{ user }}
+                    </span>
+                    <a href="{{ url_for('logout') }}" class="logout-link">退出</a>
+                </div>
+                
+            </header>
+
+            <main class="content-detail">
+                <div class="content-card">
+                    <nav class="breadcrumb">当前位置：{{ tool.title }}</nav>
+                    <h1>{{ tool.title }}</h1>
+                    <p class="description">{{ tool.desc }}</p>
+                    
+                    <hr class="divider">
+
+            <div class="tool-workspace">
+                {% if active_tool == 'tool_a' %}
+                    <div class="upload-container">
+                        <p class="upload-hint">请上传您的检测数据</p>
+                        
+                        <form action="/analyze" method="post" enctype="multipart/form-data" id="upload-form">
+                            <div class="drop-zone" id="drop-zone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>将文件拖拽到此处 或 <span>点击选择文件</span></p>
+                                <input type="file" name="file" id="file-input" hidden>
+                            </div>
+                            
+                            <button type="submit" class="analyze-btn">开始分析</button>
+                        </form>
+
+                        <div class="result-section">
+                            <label>分析结果：</label>
+                            <textarea readonly placeholder="等待分析..." id="result-text">{{ analysis_result if analysis_result else '' }}</textarea>
+                        </div>
+                    </div>
+                {% elif active_tool == 'tool_b' %}
+                    <div class="monitor-container">
+                        <div class="monitor-controls">
+                            <button id="connect-btn" class="action-btn-primary">连接监测程序</button>
+                            <button id="stop-btn" class="action-btn-danger">停止监测</button>
+                        </div>
+                        
+                        <div class="monitor-output-wrapper">
+                            <label>实时检测输出：</label>
+                            <div id="monitor-console" class="console-box">等待连接...</div>
+                        </div>
+                    </div>
+
+                    <script>
+                        let eventSource;
+                        const consoleBox = document.getElementById('monitor-console');
+                        const connectBtn = document.getElementById('connect-btn');
+                        const stopBtn = document.getElementById('stop-btn');
+
+                        connectBtn.onclick = function() {
+                            consoleBox.innerHTML = "正在建立连接...\n";
+                            
+                            // 开启 SSE 连接
+                            eventSource = new EventSource("/stream");
+
+                            eventSource.onmessage = function(event) {
+                                // 将新数据追加到文本框
+                                const newLog = document.createElement('div');
+                                newLog.textContent = event.data;
+                                consoleBox.appendChild(newLog);
+                                
+                                // 自动滚动到底部
+                                consoleBox.scrollTop = consoleBox.scrollHeight;
+                            };
+
+                            eventSource.onerror = function() {
+                                consoleBox.innerHTML += "连接已断开或发生错误。\n";
+                                eventSource.close();
+                            };
+                        };
+
+                        stopBtn.onclick = function() {
+                            if(eventSource) {
+                                eventSource.close();
+                                consoleBox.innerHTML += "--- 监测已手动停止 ---\n";
+                            }
+                        };
+                    </script>
+                {% elif active_tool == 'tool_history' %}
+                    <div class="history-container">
+                        <div class="stats-overview">
+                            <p class="upload-hint">历史检测趋势图</p>
+                        </div>
+                        
+                        <div class="chart-wrapper" style="position: relative; height:40vh; width:100%">
+                            <canvas id="historyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <script>
+                        // 页面加载后立即获取数据并绘制图表
+                        fetch('/api/history-data')
+                            .then(response => response.json())
+                            .then(data => {
+                                const ctx = document.getElementById('historyChart').getContext('2d');
+                                new Chart(ctx, {
+                                    type: 'line', // 折线图
+                                    data: {
+                                        labels: data.labels,
+                                        datasets: [{
+                                            label: '历史检测得分',
+                                            data: data.values,
+                                            borderColor: '#409eff',
+                                            backgroundColor: 'rgba(64, 158, 255, 0.1)',
+                                            borderWidth: 2,
+                                            fill: true,
+                                            tension: 0.4 // 曲线弧度
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false
+                                    }
+                                });
+                            });
+                    </script>
+                {% endif %}
+            </div>
+
+            <script>
+                const dropZone = document.getElementById('drop-zone');
+                const fileInput = document.getElementById('file-input');
+
+                dropZone.onclick = () => fileInput.click();
+
+                dropZone.ondragover = (e) => {
+                    e.preventDefault();
+                    dropZone.style.borderColor = '#3498db';
+                };
+
+                dropZone.ondragleave = () => {
+                    dropZone.style.borderColor = '#ebeef5';
+                };
+
+                dropZone.ondrop = (e) => {
+                    e.preventDefault();
+                    fileInput.files = e.dataTransfer.files;
+                    dropZone.style.borderColor = '#ebeef5';
+                    alert('文件已准备就绪：' + e.dataTransfer.files[0].name);
+                };
+            </script>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+</body>
+</html>

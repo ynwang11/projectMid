@@ -1,0 +1,388 @@
+/* 全局重置 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 首页容器：让内容完美居中 */
+.hero-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center;     /* 水平居中 */
+    background: linear-gradient(135deg, #1e1e2f, #2d2d44); /* 渐变背景 */
+    color: white;
+}
+
+/* --- 标语微调区域 --- */
+.main-slogan {
+    font-size: 4rem;         /* 调整大小：数字越大字越大 */
+    font-weight: 700;        /* 调整粗细：100-900 */
+    margin-bottom: 20px;     /* 与下方元素的间距 */
+    letter-spacing: 2px;     /* 字间距 */
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3); /* 文字阴影 */
+}
+
+.sub-text {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 40px;
+}
+
+/* 按钮样式 */
+.enter-button {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;   /* 去掉下划线 */
+    border-radius: 30px;     /* 圆角 */
+    transition: 0.3s;        /* 动画过渡 */
+}
+
+.enter-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);  /* 鼠标悬停略微放大 */
+}
+
+
+
+
+/* --- Dashboard 布局 --- */
+
+.dashboard-container {
+    display: flex;         /* 开启弹性布局：左右排列 */
+    height: 100vh;         /* 撑满全屏高度 */
+    width: 100%;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 240px;          /* 侧边栏固定宽度 */
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-logo {
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #1a252f;
+}
+
+.sidebar-menu a {
+    padding: 15px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    display: block;
+    transition: 0.2s;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: #34495e;
+    color: white;
+    border-left: 4px solid #3498db;
+}
+
+/* 右侧主区域：上下排列 */
+.main-content {
+    flex: 1;               /* 自动填满右侧剩余空间 */
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f7f6;
+}
+
+/* 顶部导航栏 */
+.top-nav {
+    height: 60px;
+    background-color: white;
+    display: flex;
+    align-items: center;   /* 垂直居中 */
+    justify-content: space-between; /* 左右两端对齐 */
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-left-placeholders button {
+    margin-right: 10px;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+/* 底部详情区 */
+.content-detail {
+    flex: 1;               /* 填满剩余高度 */
+    padding: 30px;
+    overflow-y: auto;      /* 内容多了自动出滚动条 */
+}
+
+
+/* 仪表盘专用样式 */
+.menu-item i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    margin-top: auto; /* 推到底部 */
+    padding: 20px;
+    border-top: 1px solid #3e4f5f;
+}
+
+.sidebar-footer a {
+    color: #95a5a6;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.action-btn {
+    background: #f0f2f5;
+    border: 1px solid #dcdfe6;
+    padding: 6px 15px;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: #e4e7ed;
+}
+
+.content-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.05);
+}
+
+.placeholder-box {
+    border: 2px dashed #ebeef5;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #909399;
+    margin-top: 20px;
+}
+
+/* 工具 A 专用：上传组件样式 */
+.upload-hint {
+    font-size: 1.1rem;
+    color: #606266;
+    margin-bottom: 15px;
+}
+
+.drop-zone {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed #ebeef5;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #fafafa;
+}
+
+.drop-zone:hover {
+    background-color: #f0f7ff;
+    border-color: #3498db;
+}
+
+.drop-zone i {
+    font-size: 3rem;
+    color: #409eff;
+    margin-bottom: 10px;
+}
+
+.analyze-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background-color: #67c23a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.result-section {
+    margin-top: 30px;
+}
+
+.result-section textarea {
+    width: 100%;
+    height: 150px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #dcdfe6;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    resize: none; /* 禁止手动拉伸 */
+    font-family: monospace;
+}
+
+
+/* 工具 History 专用样式 */
+.history-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.chart-wrapper {
+    margin-top: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+}
+
+.stats-overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f4f7f6;
+    margin-bottom: 20px;
+}
+
+/* 登录页面样式 */
+.login-page {
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 350px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* 确保 padding 不撑开宽度 */
+}
+
+.logout-link {
+    margin-left: 15px;
+    color: #f56c6c;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* --- 首页 (Index) 深度美化 --- */
+
+.hero-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 防止装饰块溢出 */
+    
+    /* 动态流光背景 */
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+}
+
+/* 背景流动动画 */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 动态悬浮装饰球 */
+.hero-container::before, .hero-container::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: float 10s infinite ease-in-out;
+}
+
+.hero-container::before {
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.2);
+    top: 10%;
+    left: 15%;
+}
+
+.hero-container::after {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.1);
+    bottom: 10%;
+    right: 10%;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-40px) translateX(20px); }
+}
+
+/* 提高文字层级 */
+.main-slogan, .sub-text, .enter-button {
+    position: relative;
+    z-index: 10;
+}
+
+/* 标语文字特效 */
+.main-slogan {
+    font-size: 5rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    /* 渐变文字效果 */
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* 按钮美化：磨砂玻璃感 */
+.enter-button {
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px); /* 磨砂玻璃 */
+    border-radius: 50px;
+    transition: all 0.4s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.enter-button:hover {
+    background: #fff;
+    color: #e73c7e;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
