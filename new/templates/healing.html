@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实时疗愈干预空间 · 深海月光</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/healing.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 主场景容器 -->
+    <div class="healing-scene" id="healingScene">
+        <!-- 深海背景 -->
+        <div class="deep-sea-background">
+            <div class="sea-gradient"></div>
+            <div class="moon-reflection"></div>
+            <div class="water-surface"></div>
+        </div>
+        
+        <!-- 水底光河 -->
+        <div class="light-river">
+            <div class="river-glow"></div>
+            <div class="river-current"></div>
+            <div class="river-sparkles">
+                <div class="sparkle sparkle-1"></div>
+                <div class="sparkle sparkle-2"></div>
+                <div class="sparkle sparkle-3"></div>
+                <div class="sparkle sparkle-4"></div>
+                <div class="sparkle sparkle-5"></div>
+            </div>
+        </div>
+        
+        <!-- 月光水面 -->
+        <div class="moonlight-surface">
+            <div class="moon-glow"></div>
+            <div class="moon-ripples">
+                <div class="ripple ripple-1"></div>
+                <div class="ripple ripple-2"></div>
+                <div class="ripple ripple-3"></div>
+            </div>
+        </div>
+        
+        <!-- 发光睡莲 -->
+        <div class="glowing-lilypad" id="lilypad">
+            <div class="lilypad-base">
+                <div class="lilypad-petal petal-1"></div>
+                <div class="lilypad-petal petal-2"></div>
+                <div class="lilypad-petal petal-3"></div>
+                <div class="lilypad-petal petal-4"></div>
+                <div class="lilypad-petal petal-5"></div>
+                <div class="lilypad-petal petal-6"></div>
+            </div>
+            <div class="lilypad-glow"></div>
+            <div class="lilypad-light"></div>
+        </div>
+        
+        <!-- 治愈系天使精灵 -->
+        <div class="healing-angel" id="healingAngel">
+            <div class="angel-body">
+                <!-- 翅膀 -->
+                <div class="angel-wings">
+                    <div class="wing wing-left"></div>
+                    <div class="wing wing-right"></div>
+                </div>
+                
+                <!-- 身体 -->
+                <div class="angel-torso"></div>
+                
+                <!-- 头部 -->
+                <div class="angel-head">
+                    <div class="angel-face">
+                        <div class="eyes">
+                            <div class="eye eye-left"></div>
+                            <div class="eye eye-right"></div>
+                            <div class="eyelid eyelid-left"></div>
+                            <div class="eyelid eyelid-right"></div>
+                        </div>
+                        <div class="angel-mouth"></div>
+                    </div>
+                    <div class="angel-halo"></div>
+                </div>
+                
+                <!-- 手臂 -->
+                <div class="angel-arms">
+                    <div class="arm arm-left"></div>
+                    <div class="arm arm-right"></div>
+                </div>
+                
+                <!-- 腿部 -->
+                <div class="angel-legs">
+                    <div class="leg leg-left"></div>
+                    <div class="leg leg-right"></div>
+                </div>
+                
+                <!-- 柔光效果 -->
+                <div class="angel-glow"></div>
+            </div>
+        </div>
+        
+        <!-- 呼吸引导光球 -->
+        <div class="breathing-guide" id="breathingGuide">
+            <div class="guide-ball"></div>
+            <div class="guide-text">跟随光球呼吸</div>
+            <div class="breath-indicator">
+                <div class="breath-in">吸气</div>
+                <div class="breath-hold">保持</div>
+                <div class="breath-out">呼气</div>
+            </div>
+        </div>
+        
+        <!-- 水母群 -->
+        <div class="jellyfish-school">
+            <div class="jellyfish jellyfish-1"></div>
+            <div class="jellyfish jellyfish-2"></div>
+            <div class="jellyfish jellyfish-3"></div>
+            <div class="jellyfish jellyfish-4"></div>
+        </div>
+        
+        <!-- 发光水草 -->
+        <div class="glowing-seaweed" id="seaweedContainer">
+            <!-- 水草通过JS动态生成 -->
+        </div>
+        
+        <!-- 功能入口 -->
+        <div class="function-entrances">
+            <!-- 冥想音频 -->
+            <div class="entrance entrance-1" data-function="meditation">
+                <div class="entrance-icon">
+                    <i class="fas fa-headphones-alt"></i>
+                </div>
+                <div class="entrance-label">冥想音频</div>
+            </div>
+            
+            <!-- 白噪音 -->
+            <div class="entrance entrance-2" data-function="whitenoise">
+                <div class="entrance-icon">
+                    <i class="fas fa-water"></i>
+                </div>
+                <div class="entrance-label">白噪音</div>
+            </div>
+            
+            <!-- AI对话 -->
+            <div class="entrance entrance-3" data-function="ai-chat">
+                <div class="entrance-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <div class="entrance-label">AI对话</div>
+            </div>
+            
+            <!-- 身体放松 -->
+            <div class="entrance entrance-4" data-function="relaxation">
+                <div class="entrance-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <div class="entrance-label">身体放松</div>
+            </div>
+        </div>
+        
+        <!-- 功能面板容器 -->
+        <div class="function-panels">
+            <!-- 冥想音频面板 -->
+            <div class="panel meditation-panel" id="meditationPanel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-headphones-alt"></i> 冥想音频</h3>
+                    <button class="close-panel"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="panel-content">
+                    <div class="audio-list">
+                        <div class="audio-item" data-audio="breathing">
+                            <div class="audio-icon"><i class="fas fa-wind"></i></div>
+                            <div class="audio-info">
+                                <div class="audio-title">深度呼吸冥想</div>
+                                <div class="audio-duration">15分钟</div>
+                            </div>
+                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                        </div>
+                        <div class="audio-item" data-audio="forest">
+                            <div class="audio-icon"><i class="fas fa-tree"></i></div>
+                            <div class="audio-info">
+                                <div class="audio-title">森林心灵漫步</div>
+                                <div class="audio-duration">20分钟</div>
+                            </div>
+                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                        </div>
+                        <div class="audio-item" data-audio="ocean">
+                            <div class="audio-icon"><i class="fas fa-water"></i></div>
+                            <div class="audio-info">
+                                <div class="audio-title">海洋放松引导</div>
+                                <div class="audio-duration">25分钟</div>
+                            </div>
+                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="control-buttons">
+                            <button class="control-btn prev-btn"><i class="fas fa-step-backward"></i></button>
+                            <button class="control-btn play-pause-btn"><i class="fas fa-play"></i></button>
+                            <button class="control-btn next-btn"><i class="fas fa-step-forward"></i></button>
+                            <button class="control-btn volume-btn"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 白噪音面板 -->
+            <div class="panel whitenoise-panel" id="whitenoisePanel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-water"></i> 白噪音</h3>
+                    <button class="close-panel"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="panel-content">
+                    <div class="noise-grid">
+                        <div class="noise-item" data-noise="rain">
+                            <div class="noise-icon"><i class="fas fa-cloud-rain"></i></div>
+                            <div class="noise-info">
+                                <div class="noise-title">细雨</div>
+                                <div class="noise-volume">
+                                    <input type="range" min="0" max="100" value="50" class="volume-slider">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="noise-item" data-noise="waves">
+                            <div class="noise-icon"><i class="fas fa-water"></i></div>
+                            <div class="noise-info">
+                                <div class="noise-title">海浪</div>
+                                <div class="noise-volume">
+                                    <input type="range" min="0" max="100" value="50" class="volume-slider">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="noise-item" data-noise="wind">
+                            <div class="noise-icon"><i class="fas fa-wind"></i></div>
+                            <div class="noise-info">
+                                <div class="noise-title">微风</div>
+                                <div class="noise-volume">
+                                    <input type="range" min="0" max="100" value="50" class="volume-slider">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="noise-item" data-noise="fire">
+                            <div class="noise-icon"><i class="fas fa-fire"></i></div>
+                            <div class="noise-info">
+                                <div class="noise-title">篝火</div>
+                                <div class="noise-volume">
+                                    <input type="range" min="0" max="100" value="50" class="volume-slider">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI对话面板 -->
+            <div class="panel aichat-panel" id="aichatPanel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-comment-dots"></i> AI心灵对话</h3>
+                    <button class="close-panel"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="panel-content">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message ai-message">
+                                <div class="message-bubble">你好，我是你的心灵陪伴精灵。有什么想和我分享的吗？</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="输入你的想法..." id="chatInput">
+                            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 身体放松面板 -->
+            <div class="panel relaxation-panel" id="relaxationPanel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-spa"></i> 身体放松</h3>
+                    <button class="close-panel"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="panel-content">
+                    <div class="relaxation-exercises">
+                        <div class="exercise-item" data-exercise="neck">
+                            <div class="exercise-icon"><i class="fas fa-user"></i></div>
+                            <div class="exercise-info">
+                                <div class="exercise-title">颈部放松</div>
+                                <div class="exercise-duration">5分钟</div>
+                            </div>
+                            <button class="start-btn">开始</button>
+                        </div>
+                        <div class="exercise-item" data-exercise="shoulder">
+                            <div class="exercise-icon"><i class="fas fa-hands"></i></div>
+                            <div class="exercise-info">
+                                <div class="exercise-title">肩部放松</div>
+                                <div class="exercise-duration">7分钟</div>
+                            </div>
+                            <button class="start-btn">开始</button>
+                        </div>
+                        <div class="exercise-item" data-exercise="breath">
+                            <div class="exercise-icon"><i class="fas fa-lungs"></i></div>
+                            <div class="exercise-info">
+                                <div class="exercise-title">呼吸放松</div>
+                                <div class="exercise-duration">10分钟</div>
+                            </div>
+                            <button class="start-btn">开始</button>
+                        </div>
+                    </div>
+                    <div class="relaxation-guide">
+                        <div class="guide-animation">
+                            <div class="guide-dot dot-1"></div>
+                            <div class="guide-dot dot-2"></div>
+                            <div class="guide-dot dot-3"></div>
+                        </div>
+                        <div class="guide-text">跟随引导放松身体</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 对话气泡 -->
+        <div class="speech-bubbles" id="speechBubbles">
+            <!-- 气泡通过JS动态生成 -->
+        </div>
+        
+        <!-- 安抚粒子 -->
+        <div class="calming-particles" id="calmingParticles">
+            <!-- 粒子通过JS动态生成 -->
+        </div>
+        
+        <!-- 返回按钮 -->
+        <div class="back-to-dashboard">
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                <i class="fas fa-arrow-left"></i> 返回仪表板
+            </a>
+        </div>
+        
+        <!-- 交互提示 -->
+        <div class="interaction-tips">
+            <div class="tip tip-1">点击：水面涟漪</div>
+            <div class="tip tip-2">长按：发光水草</div>
+            <div class="tip tip-3">滑动：视角移动</div>
+        </div>
+    </div>
+    
+    <!-- 音频元素 -->
+    <audio id="ambientMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-deep-ambient-478.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="breathingAudio">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-meditative-ambient-479.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="rainAudio" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1248.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wavesAudio" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-waves-loop-1250.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- TTS语音合成 -->
+    <div id="ttsContainer" style="display: none;"></div>
+    
+    <script src="{{ url_for('static', filename='js/healing.js') }}"></script>
+</body>
+</html>

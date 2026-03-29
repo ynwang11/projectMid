@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心语精灵 · 云端森林</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/launch.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 主场景容器 -->
+    <div class="forest-scene" id="forestScene">
+        <!-- 背景天空 -->
+        <div class="sky-background">
+            <div class="gradient-sky"></div>
+            <div class="clouds-layer">
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+                <div class="cloud cloud-4"></div>
+            </div>
+        </div>
+        
+        <!-- 漂浮岛屿 -->
+        <div class="floating-islands">
+            <div class="island island-1">
+                <div class="island-grass"></div>
+                <div class="island-tree tree-1"></div>
+            </div>
+            <div class="island island-2">
+                <div class="island-grass"></div>
+                <div class="island-tree tree-2"></div>
+            </div>
+            <div class="island island-3">
+                <div class="island-grass"></div>
+                <div class="island-flower"></div>
+            </div>
+        </div>
+        
+        <!-- 森林层 -->
+        <div class="forest-layer">
+            <div class="trees-back"></div>
+            <div class="trees-mid">
+                <div class="tree tree-mid-1"></div>
+                <div class="tree tree-mid-2"></div>
+                <div class="tree tree-mid-3"></div>
+            </div>
+            <div class="trees-front">
+                <div class="tree tree-front-1" data-interactive="true"></div>
+                <div class="tree tree-front-2" data-interactive="true"></div>
+                <div class="tree tree-front-3" data-interactive="true"></div>
+            </div>
+        </div>
+        
+        <!-- 发光蒲公英 -->
+        <div class="dandelions">
+            <div class="dandelion dandelion-1"></div>
+            <div class="dandelion dandelion-2"></div>
+            <div class="dandelion dandelion-3"></div>
+            <div class="dandelion dandelion-4"></div>
+            <div class="dandelion dandelion-5"></div>
+        </div>
+        
+        <!-- 清晨雾海 -->
+        <div class="morning-fog">
+            <div class="fog-layer fog-1"></div>
+            <div class="fog-layer fog-2"></div>
+            <div class="fog-layer fog-3"></div>
+        </div>
+        
+        <!-- 中央入口按钮 -->
+        <div class="center-portal" id="centerPortal">
+            <div class="portal-glow"></div>
+            <div class="portal-ring ring-1"></div>
+            <div class="portal-ring ring-2"></div>
+            <div class="portal-ring ring-3"></div>
+            <div class="portal-content">
+                <h2 class="portal-title">心语森林</h2>
+                <p class="portal-subtitle">治愈心灵的云端秘境</p>
+                <a href="{{ url_for('dashboard') }}" class="portal-button">
+                    <i class="fas fa-door-open"></i> 进入心灵花园
+                </a>
+            </div>
+            <div class="portal-particles">
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
+                <div class="particle particle-4"></div>
+            </div>
+        </div>
+        
+        <!-- 交互光点 -->
+        <div class="interactive-lights" id="interactiveLights">
+            <!-- 光点通过JS动态生成 -->
+        </div>
+        
+        <!-- 地面法阵 -->
+        <div class="magic-circle" id="magicCircle">
+            <div class="circle-layer circle-1"></div>
+            <div class="circle-layer circle-2"></div>
+            <div class="circle-layer circle-3"></div>
+            <div class="circle-runes">
+                <div class="rune rune-1">⋆</div>
+                <div class="rune rune-2">✧</div>
+                <div class="rune rune-3">✦</div>
+                <div class="rune rune-4">✶</div>
+            </div>
+        </div>
+        
+        <!-- 星光粒子 -->
+        <div class="stardust-particles" id="stardustParticles">
+            <!-- 粒子通过JS动态生成 -->
+        </div>
+        
+        <!-- 主界面浮现层 -->
+        <div class="main-interface" id="mainInterface">
+            <div class="interface-clouds">
+                <div class="interface-cloud cloud-a"></div>
+                <div class="interface-cloud cloud-b"></div>
+                <div class="interface-cloud cloud-c"></div>
+            </div>
+            <div class="interface-content">
+                <h1 class="welcome-title">欢迎来到心语森林</h1>
+                <p class="welcome-subtitle">在这里，每一片叶子都倾听你的心声</p>
+                <a href="{{ url_for('dashboard') }}" class="enter-button">
+                    <i class="fas fa-feather-alt"></i> 进入心灵花园
+                </a>
+            </div>
+        </div>
+        
+        <!-- 交互提示 -->
+        <div class="interaction-hint" id="interactionHint">
+            <i class="fas fa-mouse-pointer"></i>
+            <span>点击任意位置开始旅程</span>
+        </div>
+    </div>
+    
+    <!-- 音频元素 -->
+    <audio id="ambientSound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-forest-ambience-941.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="magicSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-300.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script src="{{ url_for('static', filename='js/launch.js') }}"></script>
+</body>
+</html>

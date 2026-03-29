@@ -12,33 +12,105 @@
 
     <div class="dashboard-container">
         
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <i class="fas fa-layer-group"></i> 心理健康检测系统
+        <!-- 动漫风格导航栏 -->
+        <aside class="anime-navbar">
+            <!-- 顶部LOGO和耳狐精灵头像区域 -->
+            <div class="nav-header">
+                <div class="logo-container">
+                    <div class="logo-text">
+                        <i class="fas fa-seedling"></i> 心语精灵
+                    </div>
+                    <div class="logo-subtext">心理守护伴侣</div>
+                </div>
+                <div class="foxy-avatar">
+                    <div class="foxy-ears">
+                        <div class="ear-left"></div>
+                        <div class="ear-right"></div>
+                    </div>
+                    <div class="foxy-face">
+                        <div class="foxy-eyes">
+                            <div class="eye-left"></div>
+                            <div class="eye-right"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <nav class="sidebar-menu">
+            <!-- 动漫风装饰纹路 -->
+            <div class="anime-patterns">
+                <div class="pattern-line line-1"></div>
+                <div class="pattern-line line-2"></div>
+                <div class="pattern-line line-3"></div>
+                <div class="pattern-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            
+            <!-- 五大主功能区 -->
+            <nav class="nav-menu">
                 <a href="{{ url_for('dashboard', tool_name='tool_a') }}" 
-                   class="menu-item {{ 'active' if active_tool == 'tool_a' else '' }}">
-                    <i class="fas fa-hammer"></i> 手动上传数据
+                   class="nav-item {{ 'active' if active_tool == 'tool_a' else '' }}">
+                    <div class="nav-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="nav-text">
+                        <div class="nav-title">生理实时监测</div>
+                        <div class="nav-desc">身体指标动态追踪</div>
+                    </div>
                 </a>
                 
                 <a href="{{ url_for('dashboard', tool_name='tool_b') }}" 
-                   class="menu-item {{ 'active' if active_tool == 'tool_b' else '' }}">
-                    <i class="fas fa-chart-line"></i> 实时检测
+                   class="nav-item {{ 'active' if active_tool == 'tool_b' else '' }}">
+                    <div class="nav-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="nav-text">
+                        <div class="nav-title">心理多维分析</div>
+                        <div class="nav-desc">情绪认知深度洞察</div>
+                    </div>
                 </a>
+                
                 <a href="{{ url_for('dashboard', tool_name='tool_history') }}" 
-                class="menu-item {{ 'active' if active_tool == 'tool_history' else '' }}">
-                    <i class="fas fa-history"></i> 历史数据
-                </a>                
-                <a href="{{ url_for('dashboard', tool_name='tool_c') }}" 
-                   class="menu-item {{ 'active' if active_tool == 'tool_c' else '' }}">
-                    <i class="fas fa-cog"></i> 工具 C
+                   class="nav-item {{ 'active' if active_tool == 'tool_history' else '' }}">
+                    <div class="nav-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="nav-text">
+                        <div class="nav-title">长期报告馆</div>
+                        <div class="nav-desc">成长轨迹完整记录</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="nav-text">
+                        <div class="nav-title">实时疗愈空间</div>
+                        <div class="nav-desc">放松冥想正念练习</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="nav-text">
+                        <div class="nav-title">个人中心</div>
+                        <div class="nav-desc">账户设置个性化</div>
+                    </div>
                 </a>
             </nav>
-
-            <div class="sidebar-footer">
-                <a href="{{ url_for('index') }}">返回首页</a>
+            
+            <!-- 底部装饰和返回按钮 -->
+            <div class="nav-footer">
+                <div class="glow-orb"></div>
+                <a href="{{ url_for('index') }}" class="return-home">
+                    <i class="fas fa-home"></i> 返回首页
+                </a>
             </div>
         </aside>
 
