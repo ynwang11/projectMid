@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% if active_tool == 'tool_history' %}
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/archive_garden.css') }}">
+    {% endif %}
+    {% if active_tool == 'tool_b' %}
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/psycho_library.css') }}">
+    {% endif %}
+    {% if active_tool == 'tool_a' %}
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/island_vitals.css') }}">
+    {% endif %}
 </head>
 <body>
 
@@ -84,7 +96,7 @@
                     </div>
                 </a>
                 
-                <a href="#" class="nav-item">
+                <a href="{{ url_for('healing') }}" class="nav-item">
                     <div class="nav-icon">
                         <i class="fas fa-spa"></i>
                     </div>
@@ -94,7 +106,7 @@
                     </div>
                 </a>
                 
-                <a href="#" class="nav-item">
+                <a href="{{ url_for('profile_archive') }}" class="nav-item">
                     <div class="nav-icon">
                         <i class="fas fa-user-circle"></i>
                     </div>
@@ -133,7 +145,7 @@
             </header>
 
             <main class="content-detail">
-                <div class="content-card">
+                <div class="content-card{% if active_tool == 'tool_history' %} archive-mode{% elif active_tool == 'tool_b' %} psycho-mode{% elif active_tool == 'tool_a' %} vitals-mode{% endif %}">
                     <nav class="breadcrumb">当前位置：{{ tool.title }}</nav>
                     <h1>{{ tool.title }}</h1>
                     <p class="description">{{ tool.desc }}</p>
@@ -142,134 +154,324 @@
 
             <div class="tool-workspace">
                 {% if active_tool == 'tool_a' %}
-                    <div class="upload-container">
-                        <p class="upload-hint">请上传您的检测数据</p>
-                        
-                        <form action="/analyze" method="post" enctype="multipart/form-data" id="upload-form">
-                            <div class="drop-zone" id="drop-zone">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>将文件拖拽到此处 或 <span>点击选择文件</span></p>
-                                <input type="file" name="file" id="file-input" hidden>
+                    <div class="island-vitals" id="islandVitals">
+                        <div class="island-sky">
+                            <div class="cloud c1"></div>
+                            <div class="cloud c2"></div>
+                            <div class="cloud c3"></div>
+                        </div>
+
+                        <div class="island-ground">
+                            <div class="grass-layer"></div>
+                            <div class="hearts-layer"></div>
+                            <div class="particles-layer"></div>
+                            <div class="guide-arrows" id="guideArrows" aria-hidden="true">
+                                <div class="arrow-glow"></div>
+                                <div class="arrow-glow"></div>
+                                <div class="arrow-glow"></div>
                             </div>
-                            
-                            <button type="submit" class="analyze-btn">开始分析</button>
-                        </form>
-
-                        <div class="result-section">
-                            <label>分析结果：</label>
-                            <textarea readonly placeholder="等待分析..." id="result-text">{{ analysis_result if analysis_result else '' }}</textarea>
+                            <div class="healing-fab" id="healingFab">
+                                <a href="{{ url_for('healing') }}"><i class="fas fa-spa"></i> 开启疗愈</a>
+                            </div>
                         </div>
+
+                        <div class="vitals-shell">
+                            <div class="vitals-cards-strip">
+                                <div class="vital-card" data-metric="hr">
+                                    <h4><i class="fas fa-heartbeat"></i> 心率</h4>
+                                    <div><span class="vital-num">--</span><span class="vital-unit"> bpm</span></div>
+                                    <canvas class="spark-canvas" width="280" height="44"></canvas>
+                                </div>
+                                <div class="vital-card" data-metric="resp">
+                                    <h4><i class="fas fa-wind"></i> 呼吸</h4>
+                                    <div><span class="vital-num">--</span><span class="vital-unit"> 次/分</span></div>
+                                    <canvas class="spark-canvas" width="280" height="44"></canvas>
+                                </div>
+                                <div class="vital-card" data-metric="eda">
+                                    <h4><i class="fas fa-bolt"></i> 皮电</h4>
+                                    <div><span class="vital-num">--</span><span class="vital-unit"> μS</span></div>
+                                    <canvas class="spark-canvas" width="280" height="44"></canvas>
+                                </div>
+                                <div class="vital-card" data-metric="hrv">
+                                    <h4><i class="fas fa-wave-square"></i> HRV</h4>
+                                    <div><span class="vital-num">--</span><span class="vital-unit"> ms</span></div>
+                                    <canvas class="spark-canvas" width="280" height="44"></canvas>
+                                </div>
+                                <div class="vital-card" data-metric="temp">
+                                    <h4><i class="fas fa-temperature-half"></i> 体温</h4>
+                                    <div><span class="vital-num">--</span><span class="vital-unit"> °C</span></div>
+                                    <canvas class="spark-canvas" width="280" height="44"></canvas>
+                                </div>
+                            </div>
+                            <div class="emotion-orb-wrap">
+                                <h4>情绪魔法球</h4>
+                                <div class="emotion-orb emotion-calm" id="emotionOrb"></div>
+                            </div>
+                        </div>
+
+                        <div class="earfox" id="earFox" title="点我试试小动作">
+                            <div class="efx-ear efx-ear-l"></div>
+                            <div class="efx-ear efx-ear-r"></div>
+                            <div class="efx-head">
+                                <div class="efx-eye efx-eye-l"></div>
+                                <div class="efx-eye efx-eye-r"></div>
+                                <div class="efx-snout"></div>
+                            </div>
+                            <div class="efx-body"></div>
+                            <div class="efx-tail"></div>
+                        </div>
+
+                        <p class="island-hint">横滑卡片切换查看 · 点击卡片放大波形 · 长按卡片听精灵提示 · 数据为演示接口 /api/vitals-live</p>
+
+                        <div class="vital-modal" id="vitalModal" aria-hidden="true">
+                            <div class="vital-modal-bg"></div>
+                            <div class="vital-modal-box">
+                                <button type="button" class="vital-modal-close" aria-label="关闭">&times;</button>
+                                <h3 id="vitalModalTitle"></h3>
+                                <canvas id="vitalModalCanvas" class="big-spark" width="360" height="160"></canvas>
+                            </div>
+                        </div>
+
+                        <details class="island-legacy">
+                            <summary>上传检测文件 · 原有分析功能（/analyze）</summary>
+                            <div class="upload-container">
+                                <p class="upload-hint">请上传您的检测数据</p>
+                                <form action="/analyze" method="post" enctype="multipart/form-data" id="upload-form">
+                                    <div class="drop-zone" id="drop-zone">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>将文件拖拽到此处 或 <span>点击选择文件</span></p>
+                                        <input type="file" name="file" id="file-input" hidden>
+                                    </div>
+                                    <button type="submit" class="analyze-btn">开始分析</button>
+                                </form>
+                                <div class="result-section">
+                                    <label>分析结果：</label>
+                                    <textarea readonly placeholder="等待分析..." id="result-text">{{ analysis_result if analysis_result else '' }}</textarea>
+                                </div>
+                            </div>
+                        </details>
                     </div>
+
+                    <script src="{{ url_for('static', filename='js/island_vitals.js') }}"></script>
                 {% elif active_tool == 'tool_b' %}
-                    <div class="monitor-container">
-                        <div class="monitor-controls">
-                            <button id="connect-btn" class="action-btn-primary">连接监测程序</button>
-                            <button id="stop-btn" class="action-btn-danger">停止监测</button>
+                    <div class="psycho-library" id="psychoLibrary">
+                        <div class="star-ceiling"></div>
+                        <div class="floating-shelf shelf-left">
+                            <div class="shelf-plank plank-a"></div>
+                            <div class="shelf-plank plank-b"></div>
+                            <div class="shelf-books row-up">
+                                <div class="sb"></div><div class="sb"></div><div class="sb"></div>
+                            </div>
+                            <div class="shelf-books row-down">
+                                <div class="sb"></div><div class="sb"></div><div class="sb"></div>
+                            </div>
+                            <div class="floating-page"></div>
                         </div>
-                        
-                        <div class="monitor-output-wrapper">
-                            <label>实时检测输出：</label>
-                            <div id="monitor-console" class="console-box">等待连接...</div>
+                        <div class="floating-shelf shelf-right">
+                            <div class="shelf-plank plank-a"></div>
+                            <div class="shelf-plank plank-b"></div>
+                            <div class="shelf-books row-up">
+                                <div class="sb"></div><div class="sb"></div><div class="sb"></div>
+                            </div>
+                            <div class="shelf-books row-down">
+                                <div class="sb"></div><div class="sb"></div><div class="sb"></div>
+                            </div>
+                            <div class="floating-page"></div>
+                        </div>
+
+                        <div class="jelly-layer" id="jellyfishLayer"></div>
+
+                        <div class="ferret-spirit" id="ferretSpirit">
+                            <div class="ferret-ear ferret-ear-l"></div>
+                            <div class="ferret-ear ferret-ear-r"></div>
+                            <div class="ferret-head">
+                                <div class="ferret-glasses"></div>
+                                <div class="ferret-snout"></div>
+                            </div>
+                            <div class="ferret-body"></div>
+                            <div class="ferret-scroll"></div>
+                        </div>
+
+                        <div class="psy-book-stage" id="psyBookStage">
+                            <div class="psy-book-pages"></div>
+                        </div>
+                        <div class="time-tab-bar">
+                            <button type="button" class="time-tab" data-range="realtime">实时</button>
+                            <button type="button" class="time-tab" data-range="today">今日</button>
+                            <button type="button" class="time-tab" data-range="week">本周</button>
+                            <button type="button" class="time-tab" data-range="month">本月</button>
+                        </div>
+
+                        <div class="magic-grid">
+                            <div class="magic-card" data-chart-key="ring">
+                                <h4><i class="fas fa-circle-notch"></i> 情绪环形</h4>
+                                <div class="magic-ring"></div>
+                                <div class="chart-box"><canvas id="plChartRing"></canvas></div>
+                            </div>
+                            <div class="magic-card" data-chart-key="radar">
+                                <h4><i class="fas fa-bullseye"></i> 心理雷达</h4>
+                                <div class="magic-ring"></div>
+                                <div class="chart-box"><canvas id="plChartRadar"></canvas></div>
+                            </div>
+                            <div class="magic-card" data-chart-key="wave">
+                                <h4><i class="fas fa-water"></i> 能量波浪</h4>
+                                <div class="magic-ring"></div>
+                                <div class="chart-box"><canvas id="plChartWave"></canvas></div>
+                            </div>
+                            <div class="magic-card" data-chart-key="curve">
+                                <h4><i class="fas fa-chart-line"></i> 周趋势曲线</h4>
+                                <div class="magic-ring"></div>
+                                <div class="chart-box"><canvas id="plChartCurve"></canvas></div>
+                            </div>
+                            <div class="magic-card" data-chart-key="bars">
+                                <h4><i class="fas fa-chart-bar"></i> 生理条带</h4>
+                                <div class="magic-ring"></div>
+                                <div class="chart-box"><canvas id="plChartBars"></canvas></div>
+                            </div>
+                            <div class="magic-card" data-chart-key="polar">
+                                <h4><i class="fas fa-snowflake"></i> 五维极区</h4>
+                                <div class="magic-ring"></div>
+                                <div class="chart-box"><canvas id="plChartPolar"></canvas></div>
+                            </div>
+                        </div>
+
+                        <section class="psy-ai-panel">
+                            <h3><i class="fas fa-wand-magic-sparkles"></i> AI 心理解读 · 发光字迹</h3>
+                            <p class="ai-glow-text" id="psyAiText"></p>
+                            <p class="ai-hint">点击文字：白鼬学者为你朗读 · 切换时间轴时书页会轻轻翻动</p>
+                        </section>
+
+                        <div class="monitor-container library-monitor">
+                            <div class="monitor-controls">
+                                <button id="connect-btn" class="action-btn-primary">连接监测程序</button>
+                                <button id="stop-btn" class="action-btn-danger">停止监测</button>
+                            </div>
+                            <div class="monitor-output-wrapper">
+                                <label>实时检测输出（原 SSE 流）：</label>
+                                <div id="monitor-console" class="console-box">等待连接...</div>
+                            </div>
+                        </div>
+
+                        <p class="psy-hint-bar">提示：移动鼠标感受星空与书架视差；点击水母它会游向点击处；点击任意魔法阵图表查看详解。</p>
+
+                        <div class="pl-modal" id="plChartModal" aria-hidden="true">
+                            <div class="pl-modal-bg"></div>
+                            <div class="pl-modal-box">
+                                <button type="button" class="pl-modal-close" aria-label="关闭">&times;</button>
+                                <h4 id="plModalTitle"></h4>
+                                <p id="plModalBody"></p>
+                            </div>
                         </div>
                     </div>
 
-                    <script>
-                        let eventSource;
-                        const consoleBox = document.getElementById('monitor-console');
-                        const connectBtn = document.getElementById('connect-btn');
-                        const stopBtn = document.getElementById('stop-btn');
-
-                        connectBtn.onclick = function() {
-                            consoleBox.innerHTML = "正在建立连接...\n";
-                            
-                            // 开启 SSE 连接
-                            eventSource = new EventSource("/stream");
-
-                            eventSource.onmessage = function(event) {
-                                // 将新数据追加到文本框
-                                const newLog = document.createElement('div');
-                                newLog.textContent = event.data;
-                                consoleBox.appendChild(newLog);
-                                
-                                // 自动滚动到底部
-                                consoleBox.scrollTop = consoleBox.scrollHeight;
-                            };
-
-                            eventSource.onerror = function() {
-                                consoleBox.innerHTML += "连接已断开或发生错误。\n";
-                                eventSource.close();
-                            };
-                        };
-
-                        stopBtn.onclick = function() {
-                            if(eventSource) {
-                                eventSource.close();
-                                consoleBox.innerHTML += "--- 监测已手动停止 ---\n";
-                            }
-                        };
-                    </script>
+                    <script src="{{ url_for('static', filename='js/psycho_library.js') }}"></script>
                 {% elif active_tool == 'tool_history' %}
-                    <div class="history-container">
-                        <div class="stats-overview">
-                            <p class="upload-hint">历史检测趋势图</p>
+                    <div class="memory-garden" id="memoryGarden">
+                        <div class="garden-parallax-sky"></div>
+                        <div class="garden-parallax-hill"></div>
+
+                        <div class="memory-tree" aria-hidden="true">
+                            <div class="tree-glow"></div>
+                            <div class="tree-crown"></div>
+                            <div class="tree-trunk"></div>
+                            <span class="tree-crystal-hint"></span>
+                            <span class="tree-crystal-hint"></span>
+                            <span class="tree-crystal-hint"></span>
+                            <span class="tree-crystal-hint"></span>
                         </div>
-                        
-                        <div class="chart-wrapper" style="position: relative; height:40vh; width:100%">
-                            <canvas id="historyChart"></canvas>
+
+                        <div class="butterflies-layer" id="butterfliesLayer"></div>
+                        <div class="flower-field" aria-hidden="true"></div>
+
+                        <div class="garden-columns">
+                            <aside class="archive-shelf">
+                                <h3><i class="fas fa-gem"></i> 报告水晶档案</h3>
+                                <p class="archive-hint">日/周/月/年报告以水晶球呈现，点击放大并旋转。</p>
+                                <div class="crystal-list" id="crystalList"></div>
+                            </aside>
+                            <div class="garden-center-spacer"></div>
+                            <aside class="mood-calendar">
+                                <h3 id="moodCalendarTitle">情绪日历</h3>
+                                <p class="archive-hint">每日一朵花，颜色代表状态；轻点飘落查看数据。</p>
+                                <div class="petal-calendar-grid" id="petalCalendarGrid"></div>
+                            </aside>
+                        </div>
+
+                        <section class="garden-ai">
+                            <h3><i class="fas fa-fan"></i> 花仙子的长期趋势寄语</h3>
+                            <div class="fairy-row">
+                                <div class="fairy-sprite" aria-hidden="true">
+                                    <div class="fairy-wing fairy-wing-l"></div>
+                                    <div class="fairy-wing fairy-wing-r"></div>
+                                    <div class="fairy-head"></div>
+                                </div>
+                                <div class="fairy-text-wrap">
+                                    <p class="fairy-text" id="fairyAiText"></p>
+                                    <button type="button" class="btn-fairy-read" id="btnFairyRead">
+                                        <i class="fas fa-volume-up"></i> 听花仙子朗读
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="chart-caption"><i class="fas fa-chart-line"></i> 本周趋势（原历史数据接口）</p>
+                            <div class="mini-chart-wrap">
+                                <canvas id="historyChart"></canvas>
+                            </div>
+                        </section>
+
+                        <p class="garden-hint">划动花园可体验视差；拂过地面的花会悄悄盛开；点一只小蝶，它会落在指尖附近。</p>
+
+                        <div class="ag-modal" id="agCrystalModal" aria-hidden="true">
+                            <div class="ag-modal-backdrop"></div>
+                            <div class="ag-modal-panel">
+                                <button type="button" class="ag-modal-close" aria-label="关闭">&times;</button>
+                                <div class="ag-modal-orb"></div>
+                                <h4 id="agCrystalTitle"></h4>
+                                <p id="agCrystalSummary" class="ag-summary"></p>
+                                <pre id="agCrystalDetail" class="ag-detail"></pre>
+                            </div>
+                        </div>
+
+                        <div class="ag-modal" id="agDayModal" aria-hidden="true">
+                            <div class="ag-modal-backdrop"></div>
+                            <div class="ag-modal-panel">
+                                <button type="button" class="ag-modal-close" aria-label="关闭">&times;</button>
+                                <h4 id="agDayTitle" class="day-pop-title"></h4>
+                                <div id="agDayScore" class="day-pop-score"></div>
+                                <p id="agDayMood" class="ag-detail" style="text-align:center"></p>
+                            </div>
                         </div>
                     </div>
 
-                    <script>
-                        // 页面加载后立即获取数据并绘制图表
-                        fetch('/api/history-data')
-                            .then(response => response.json())
-                            .then(data => {
-                                const ctx = document.getElementById('historyChart').getContext('2d');
-                                new Chart(ctx, {
-                                    type: 'line', // 折线图
-                                    data: {
-                                        labels: data.labels,
-                                        datasets: [{
-                                            label: '历史检测得分',
-                                            data: data.values,
-                                            borderColor: '#409eff',
-                                            backgroundColor: 'rgba(64, 158, 255, 0.1)',
-                                            borderWidth: 2,
-                                            fill: true,
-                                            tension: 0.4 // 曲线弧度
-                                        }]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                        maintainAspectRatio: false
-                                    }
-                                });
-                            });
-                    </script>
+                    <script src="{{ url_for('static', filename='js/archive_garden.js') }}"></script>
                 {% endif %}
             </div>
 
             <script>
-                const dropZone = document.getElementById('drop-zone');
-                const fileInput = document.getElementById('file-input');
+                (function () {
+                    const dropZone = document.getElementById('drop-zone');
+                    const fileInput = document.getElementById('file-input');
+                    if (!dropZone || !fileInput) return;
 
-                dropZone.onclick = () => fileInput.click();
+                    dropZone.onclick = () => fileInput.click();
 
-                dropZone.ondragover = (e) => {
-                    e.preventDefault();
-                    dropZone.style.borderColor = '#3498db';
-                };
+                    dropZone.ondragover = (e) => {
+                        e.preventDefault();
+                        dropZone.style.borderColor = '#3498db';
+                    };
 
-                dropZone.ondragleave = () => {
-                    dropZone.style.borderColor = '#ebeef5';
-                };
+                    dropZone.ondragleave = () => {
+                        dropZone.style.borderColor = '#ebeef5';
+                    };
 
-                dropZone.ondrop = (e) => {
-                    e.preventDefault();
-                    fileInput.files = e.dataTransfer.files;
-                    dropZone.style.borderColor = '#ebeef5';
-                    alert('文件已准备就绪：' + e.dataTransfer.files[0].name);
-                };
+                    dropZone.ondrop = (e) => {
+                        e.preventDefault();
+                        fileInput.files = e.dataTransfer.files;
+                        dropZone.style.borderColor = '#ebeef5';
+                        if (e.dataTransfer.files[0]) {
+                            alert('文件已准备就绪：' + e.dataTransfer.files[0].name);
+                        }
+                    };
+                })();
             </script>
                 </div>
             </main>

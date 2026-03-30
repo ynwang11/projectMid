@@ -6,6 +6,7 @@
     <title>心语精灵 · 云端森林</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/launch.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- 主场景容器 -->
@@ -37,6 +38,13 @@
             </div>
         </div>
         
+        <!-- 中景树叶簇（轻摆） -->
+        <div class="mid-leaves" aria-hidden="true">
+            <span class="leaf-cluster leaf-a"></span>
+            <span class="leaf-cluster leaf-b"></span>
+            <span class="leaf-cluster leaf-c"></span>
+        </div>
+
         <!-- 森林层 -->
         <div class="forest-layer">
             <div class="trees-back"></div>
@@ -68,26 +76,36 @@
             <div class="fog-layer fog-3"></div>
         </div>
         
-        <!-- 中央入口按钮 -->
-        <div class="center-portal" id="centerPortal">
-            <div class="portal-glow"></div>
-            <div class="portal-ring ring-1"></div>
-            <div class="portal-ring ring-2"></div>
-            <div class="portal-ring ring-3"></div>
-            <div class="portal-content">
-                <h2 class="portal-title">心语森林</h2>
-                <p class="portal-subtitle">治愈心灵的云端秘境</p>
-                <a href="{{ url_for('dashboard') }}" class="portal-button">
-                    <i class="fas fa-door-open"></i> 进入心灵花园
-                </a>
+        <!-- 柔光包裹层（进入动画） -->
+        <div class="soft-veil" id="softVeil" aria-hidden="true"></div>
+
+        <!-- 中央白耳狐精灵 -->
+        <div class="launch-fox-wrap" id="launchFoxWrap">
+            <div class="fox-aura"></div>
+            <div class="launch-fox" id="launchFox" style="--look-x:0;--look-y:0;">
+                <div class="fox-tail" id="foxTail">
+                    <div class="fox-tail-glow"></div>
+                </div>
+                <div class="fox-body"></div>
+                <div class="fox-head" id="foxHead">
+                    <div class="fox-ear fox-ear-l"></div>
+                    <div class="fox-ear fox-ear-r"></div>
+                    <div class="fox-face">
+                        <div class="fox-eyes">
+                            <div class="fox-lid fox-lid-l"></div>
+                            <div class="fox-lid fox-lid-r"></div>
+                            <div class="fox-eye fox-eye-l"></div>
+                            <div class="fox-eye fox-eye-r"></div>
+                        </div>
+                        <div class="fox-snout"></div>
+                    </div>
+                </div>
             </div>
-            <div class="portal-particles">
-                <div class="particle particle-1"></div>
-                <div class="particle particle-2"></div>
-                <div class="particle particle-3"></div>
-                <div class="particle particle-4"></div>
-            </div>
+            <p class="fox-caption">心语精灵 · 轻触屏幕开始旅程</p>
         </div>
+
+        <!-- 尾迹星光容器 -->
+        <div class="cursor-trail" id="cursorTrail" aria-hidden="true"></div>
         
         <!-- 交互光点 -->
         <div class="interactive-lights" id="interactiveLights">
@@ -112,7 +130,7 @@
             <!-- 粒子通过JS动态生成 -->
         </div>
         
-        <!-- 主界面浮现层 -->
+        <!-- 主界面浮现层（法阵后从云层后显现） -->
         <div class="main-interface" id="mainInterface">
             <div class="interface-clouds">
                 <div class="interface-cloud cloud-a"></div>
@@ -122,7 +140,7 @@
             <div class="interface-content">
                 <h1 class="welcome-title">欢迎来到心语森林</h1>
                 <p class="welcome-subtitle">在这里，每一片叶子都倾听你的心声</p>
-                <a href="{{ url_for('dashboard') }}" class="enter-button">
+                <a href="{{ url_for('dashboard') }}" class="enter-button" id="enterDashboardBtn">
                     <i class="fas fa-feather-alt"></i> 进入心灵花园
                 </a>
             </div>
