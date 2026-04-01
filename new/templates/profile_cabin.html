@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>个人身心档案 · 精灵小屋</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile_cabin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+</head>
+<body class="cabin-body">
+    <div class="cabin-root" id="cabinRoot">
+        <!-- 灯光层（点击调节亮度） -->
+        <button type="button" class="lamp-hotspot" id="lampHotspot" aria-label="切换暖灯明暗"></button>
+
+        <header class="cabin-header">
+            <a href="{{ url_for('dashboard') }}" class="back-dash"><i class="fas fa-arrow-left"></i> 回到控制台</a>
+            <h1 class="cabin-title"><i class="fas fa-house-chimney-heart"></i> 精灵的温馨小屋</h1>
+            <p class="cabin-sub">个人身心档案与隐私中心 · 只属于小家的安心感</p>
+        </header>
+
+        <!-- 小屋场景 -->
+        <div class="cabin-scene" id="cabinScene">
+            <div class="wall-pattern"></div>
+            <div class="shelf">
+                <div class="shelf-board"></div>
+                <div class="book book-1"></div>
+                <div class="book book-2"></div>
+                <div class="book book-3"></div>
+                <div class="shelf-trinket"><i class="fas fa-seedling"></i></div>
+            </div>
+
+            <div class="window-nook">
+                <div class="window-frame">
+                    <div class="window-glass">
+                        <div class="moon-peep"></div>
+                        <div class="star-twinkle s1"></div>
+                        <div class="star-twinkle s2"></div>
+                    </div>
+                    <div class="window-sill"></div>
+                </div>
+                <div class="bed">
+                    <div class="pillow"></div>
+                    <div class="blanket"></div>
+                </div>
+            </div>
+
+            <div class="warm-glow" id="warmGlow" aria-hidden="true"></div>
+            <div class="floor-rug"></div>
+
+            <!-- 毛绒精灵 -->
+            <div class="plush-wrap" id="plushWrap">
+                <div class="plush" id="plushSpirit" title="点我伸个懒腰~">
+                    <div class="plush-ear plush-ear-l"></div>
+                    <div class="plush-ear plush-ear-r"></div>
+                    <div class="plush-body">
+                        <div class="plush-blush plush-blush-l"></div>
+                        <div class="plush-blush plush-blush-r"></div>
+                        <div class="plush-eye plush-eye-l"></div>
+                        <div class="plush-eye plush-eye-r"></div>
+                        <div class="plush-nose"></div>
+                    </div>
+                    <div class="plush-tail" id="plushTail"></div>
+                    <div class="plush-scroll" id="plushScroll" aria-hidden="true">
+                        <span class="scroll-label">身心报告</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 木质卡片区 -->
+        <main class="cards-wrap">
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-id-card-alt"></i> 个人档案</h2>
+                <p class="card-lead">昵称与基本信息，只保存在你的小屋里。</p>
+                <div class="form-cozy">
+                    <label>昵称</label>
+                    <input type="text" class="input-wood" value="{{ user }}" placeholder="怎么称呼你">
+                    <label>身心手记（仅本地示意）</label>
+                    <textarea class="input-wood area" rows="2" placeholder="写一句给自己的话…"></textarea>
+                </div>
+            </article>
+
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-wand-magic-sparkles"></i> 设备管理 · 精灵道具</h2>
+                <p class="card-lead">手环、手表是小精灵的魔法道具，连上会悄悄发光。</p>
+                <div class="prop-devices">
+                    <div class="prop-item" id="propBand" data-connected="1">
+                        <div class="prop-icon prop-band"><i class="fas fa-ring"></i></div>
+                        <div class="prop-meta">
+                            <span class="prop-name">元气手环</span>
+                            <span class="prop-status">已连接</span>
+                        </div>
+                        <label class="cozy-switch">
+                            <input type="checkbox" checked data-device="band">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                    <div class="prop-item" id="propWatch" data-connected="0">
+                        <div class="prop-icon prop-watch"><i class="fas fa-clock"></i></div>
+                        <div class="prop-meta">
+                            <span class="prop-name">星尘手表</span>
+                            <span class="prop-status">未连接</span>
+                        </div>
+                        <label class="cozy-switch">
+                            <input type="checkbox" data-device="watch">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </article>
+
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-palette"></i> 个性化定制</h2>
+                <p class="card-lead">把小屋调成你喜欢的颜色，也可以给毛绒精灵换个“心情皮肤”。</p>
+                <div class="custom-grid" id="customGrid">
+                    <div class="custom-block">
+                        <div class="custom-title">画面配色</div>
+                        <div class="chip-row">
+                            <button type="button" class="chip-btn" data-theme="warm">暖木</button>
+                            <button type="button" class="chip-btn" data-theme="lavender">梦幻紫</button>
+                            <button type="button" class="chip-btn" data-theme="ocean">清新蓝</button>
+                        </div>
+                    </div>
+                    <div class="custom-block">
+                        <div class="custom-title">宠物外观</div>
+                        <div class="chip-row">
+                            <button type="button" class="chip-btn" data-plush="0">原色</button>
+                            <button type="button" class="chip-btn" data-plush="45">日光金</button>
+                            <button type="button" class="chip-btn" data-plush="210">深海蓝</button>
+                        </div>
+                    </div>
+                </div>
+                <p class="hint-soft">提示：更换后会自动记住（本地示意）。</p>
+            </article>
+
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-database"></i> 数据设置</h2>
+                <p class="card-lead">数据停留多久、多久同步一次，都由你决定。</p>
+                <div class="form-cozy">
+                    <label>本地数据保留</label>
+                    <select class="input-wood">
+                        <option>30 天</option>
+                        <option selected>90 天</option>
+                        <option>1 年</option>
+                    </select>
+                    <label>云端同步频率</label>
+                    <select class="input-wood">
+                        <option>仅 Wi-Fi</option>
+                        <option selected>每日夜间</option>
+                        <option>实时（耗电略高）</option>
+                    </select>
+                </div>
+            </article>
+
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-box-open"></i> 情绪收纳：垃圾桶 & 宝箱</h2>
+                <p class="card-lead">把坏情绪丢进垃圾桶，把好情绪放进宝箱；支持文字与语音转文字（本地示意）。</p>
+                <div class="emotion-box">
+                    <textarea class="input-wood area" rows="2" id="emotionInput" placeholder="写下你想说的…（或点下方语音输入）"></textarea>
+                    <div class="emotion-actions">
+                        <button type="button" class="btn-cozy-secondary" id="btnVoice">
+                            <i class="fas fa-microphone"></i> 语音输入
+                        </button>
+                        <button type="button" class="btn-cozy-secondary" id="btnClearInput">
+                            <i class="fas fa-eraser"></i> 清空
+                        </button>
+                    </div>
+                    <div class="emotion-split">
+                        <section class="emotion-col bad">
+                            <div class="emotion-col-title"><i class="fas fa-trash"></i> 坏情绪垃圾桶</div>
+                            <div class="emotion-col-actions">
+                                <button type="button" class="btn-cozy-primary" id="btnDropBad"><i class="fas fa-arrow-down"></i> 丢进去</button>
+                            </div>
+                            <ul class="emotion-list" id="badList"></ul>
+                        </section>
+                        <section class="emotion-col good">
+                            <div class="emotion-col-title"><i class="fas fa-gift"></i> 好情绪宝箱</div>
+                            <div class="emotion-col-actions">
+                                <button type="button" class="btn-cozy-primary" id="btnStoreGood"><i class="fas fa-star"></i> 收进宝箱</button>
+                            </div>
+                            <ul class="emotion-list" id="goodList"></ul>
+                        </section>
+                    </div>
+                </div>
+            </article>
+
+            <article class="wood-card tilt-card card-privacy" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-shield-heart"></i> 隐私权限 · 守护结界</h2>
+                <p class="card-lead">每一项权限外面，都有一层温柔结界；打开时会轻轻亮起。</p>
+                <div class="barrier-visual" id="barrierVisual" aria-hidden="true">
+                    <div class="barrier-ring ring-1"></div>
+                    <div class="barrier-ring ring-2"></div>
+                    <div class="barrier-ring ring-3"></div>
+                    <div class="barrier-core"><i class="fas fa-heart"></i></div>
+                </div>
+                <ul class="privacy-list">
+                    <li class="privacy-row" data-perm="health">
+                        <span class="perm-label"><i class="fas fa-heart-pulse"></i> 健康数据用于分析</span>
+                        <label class="perm-toggle">
+                            <input type="checkbox" checked>
+                            <span class="perm-track">
+                                <span class="perm-thumb">
+                                    <i class="fas fa-lock perm-lock"></i>
+                                </span>
+                            </span>
+                        </label>
+                    </li>
+                    <li class="privacy-row" data-perm="notify">
+                        <span class="perm-label"><i class="fas fa-bell"></i> 温和提醒与陪伴通知</span>
+                        <label class="perm-toggle">
+                            <input type="checkbox" checked>
+                            <span class="perm-track">
+                                <span class="perm-thumb">
+                                    <i class="fas fa-lock perm-lock"></i>
+                                </span>
+                            </span>
+                        </label>
+                    </li>
+                    <li class="privacy-row" data-perm="share">
+                        <span class="perm-label"><i class="fas fa-share-nodes"></i> 匿名用于模型改进（可选）</span>
+                        <label class="perm-toggle">
+                            <input type="checkbox">
+                            <span class="perm-track">
+                                <span class="perm-thumb">
+                                    <i class="fas fa-lock perm-lock"></i>
+                                </span>
+                            </span>
+                        </label>
+                    </li>
+                </ul>
+            </article>
+
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-file-export"></i> 导出备份</h2>
+                <p class="card-lead">导出时，小精灵会抱着卷轴跑过来递给你。</p>
+                <button type="button" class="btn-cozy-primary" id="btnExport">
+                    <i class="fas fa-scroll"></i> 生成身心报告备份
+                </button>
+                <p class="hint-soft">文件格式示例：JSON / PDF（演示动画）</p>
+            </article>
+
+            <article class="wood-card tilt-card" data-card>
+                <div class="card-knot"></div>
+                <h2><i class="fas fa-key"></i> 账号安全</h2>
+                <p class="card-lead">像锁小屋门一样，守护你的登录安全。</p>
+                <div class="form-cozy">
+                    <label>登录邮箱（示意）</label>
+                    <input type="email" class="input-wood" placeholder="you@example.com">
+                    <label class="inline-check">
+                        <input type="checkbox"> 开启二次验证（短信/验证器）
+                    </label>
+                </div>
+                <button type="button" class="btn-cozy-secondary"><i class="fas fa-lock"></i> 修改密码</button>
+            </article>
+        </main>
+
+        <div class="export-toast" id="exportToast" role="status" aria-live="polite">
+            <i class="fas fa-gift"></i> 报告已备好，请在实际产品中选择保存位置~
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/profile_cabin.js') }}"></script>
+</body>
+</html>

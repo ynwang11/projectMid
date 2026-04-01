@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>付费订阅 · 心语精灵</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: var(--brand-bg); }
+        .sub-wrap { max-width: 920px; margin: 28px auto; padding: 0 16px 40px; }
+        .sub-hero {
+            border-radius: 18px;
+            padding: 18px 18px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+        }
+        .sub-hero h1 { margin: 0 0 6px; color: var(--brand-ink); }
+        .sub-hero p { margin: 0; color: var(--brand-muted); }
+        .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 14px; }
+        .plan {
+            border-radius: 18px;
+            padding: 16px;
+            background: #fff;
+            border: 1px solid rgba(102,126,234,.18);
+            box-shadow: 0 10px 30px rgba(60,120,140,.12);
+        }
+        .plan h3 { margin: 0 0 8px; color: var(--brand-ink); }
+        .plan ul { margin: 0; padding-left: 18px; color: var(--brand-ink); opacity: .88; }
+        .plan .price { margin: 10px 0 12px; font-weight: 800; color: #667eea; }
+        .sub-actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn { padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.6); cursor: pointer; font-weight: 800; }
+        .btn.primary { background: var(--brand-grad); color: #fff; }
+        .btn.ghost { background: rgba(255,255,255,.7); color: var(--brand-ink); }
+        .state-tag { display:inline-flex; align-items:center; gap:8px; margin-top:10px; color: var(--brand-ink); }
+        .state-dot { width:10px; height:10px; border-radius:50%; background: {{ '#2ecc71' if subscribed else '#f39c12' }}; }
+    </style>
+</head>
+<body>
+    <div class="sub-wrap">
+        <div class="sub-hero">
+            <a href="{{ url_for('dashboard') }}" class="return-home" style="max-width:180px;margin-bottom:12px;">
+                <i class="fas fa-arrow-left"></i> 返回控制台
+            </a>
+            <h1><i class="fas fa-crown"></i> 付费订阅</h1>
+            <p>用订阅解锁长期报告、AI 对话、宠物外观与背景等个性化能力（演示版开关）。</p>
+            <div class="state-tag"><span class="state-dot"></span> 当前：{{ '已订阅' if subscribed else '未订阅（仅可查看短期信息）' }}</div>
+        </div>
+
+        <div class="sub-grid">
+            <div class="plan">
+                <h3>免费版</h3>
+                <div class="price">¥0 / 永久</div>
+                <ul>
+                    <li>查看今日/近一周信息</li>
+                    <li>基础疗愈场景与呼吸引导</li>
+                </ul>
+            </div>
+            <div class="plan">
+                <h3>订阅版</h3>
+                <div class="price">¥19 / 月（演示）</div>
+                <ul>
+                    <li>长期报告：一月 / 三月 / 一年</li>
+                    <li>AI 对话（疗愈空间）</li>
+                    <li>更多宠物外观与背景定制</li>
+                </ul>
+            </div>
+        </div>
+
+        <form class="sub-actions" method="post" action="{{ url_for('subscribe') }}">
+            {% if subscribed %}
+            <button class="btn ghost" type="submit" name="action" value="cancel">
+                <i class="fas fa-ban"></i> 取消订阅（演示）
+            </button>
+            {% else %}
+            <button class="btn primary" type="submit" name="action" value="start">
+                <i class="fas fa-sparkles"></i> 开通订阅（演示）
+            </button>
+            {% endif %}
+            <a class="btn ghost" href="{{ url_for('ai_settings') }}" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                <i class="fas fa-robot"></i> AI 接入设置
+            </a>
+        </form>
+    </div>
+</body>
+</html>
+

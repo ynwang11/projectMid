@@ -1,0 +1,600 @@
+/* AI心理多维分析中心 · 夜晚星光图书馆 */
+
+.content-card.psycho-mode {
+    overflow: visible;
+}
+
+.psycho-library {
+    --pl-mx: 0;
+    --pl-my: 0;
+    position: relative;
+    margin: -0.5rem -1rem 0;
+    padding: 0 0 1rem;
+    min-height: 520px;
+    border-radius: 18px;
+    overflow: hidden;
+    /* 与控制台主风格统一：更柔和的“暮色玻璃”底色 */
+    background: linear-gradient(185deg, #f3f6ff 0%, #edf3ff 35%, #eef7f2 70%, #f8f4ff 100%);
+    font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #2f3a4a;
+}
+
+.psycho-library::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(2px 2px at 10% 20%, rgba(102, 126, 234, 0.35), transparent),
+        radial-gradient(1.5px 1.5px at 30% 55%, rgba(118, 75, 162, 0.25), transparent),
+        radial-gradient(1px 1px at 70% 30%, rgba(60, 160, 200, 0.22), transparent),
+        radial-gradient(1.5px 1.5px at 85% 65%, rgba(255, 182, 193, 0.22), transparent),
+        radial-gradient(1px 1px at 50% 80%, rgba(120, 200, 255, 0.18), transparent);
+    background-size: 100% 100%;
+    opacity: 0.9;
+    pointer-events: none;
+    animation: starTwinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes starTwinkle {
+    from { opacity: 0.45; }
+    to { opacity: 0.7; }
+}
+
+.star-ceiling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 38%;
+    background: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(102, 126, 234, 0.16), transparent 70%);
+    pointer-events: none;
+    transform: translate3d(calc(var(--pl-mx) * -12px), calc(var(--pl-my) * -8px), 0);
+    transition: transform 0.12s ease-out;
+}
+
+.floating-shelf {
+    position: absolute;
+    width: 120px;
+    height: 180px;
+    top: 12%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.55;
+    transform: translate3d(calc(var(--pl-mx) * -6px), calc(var(--pl-my) * -4px), 0);
+}
+
+.floating-shelf.shelf-left { left: 3%; }
+.floating-shelf.shelf-right { right: 3%; }
+
+.shelf-plank {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(180deg, #4a3828, #2a2018);
+    border-radius: 2px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.shelf-plank.plank-a { top: 0; }
+.shelf-plank.plank-b { top: 44%; }
+
+.shelf-books {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+}
+
+.shelf-books.row-up {
+    bottom: auto;
+    top: 14px;
+}
+
+.shelf-books.row-down {
+    bottom: 8px;
+}
+
+.sb {
+    width: 14px;
+    border-radius: 2px 2px 0 0;
+    background: linear-gradient(90deg, #5c4038, #3d2820);
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.sb:nth-child(1) { height: 72px; background: linear-gradient(90deg, #6b4c6e, #4a3550); }
+.sb:nth-child(2) { height: 88px; background: linear-gradient(90deg, #4a6b7a, #355a68); }
+.sb:nth-child(3) { height: 64px; background: linear-gradient(90deg, #6b6a4a, #505030); }
+
+.floating-page {
+    position: absolute;
+    width: 40px;
+    height: 52px;
+    background: linear-gradient(135deg, rgba(255, 250, 240, 0.15), rgba(220, 230, 255, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    top: 24%;
+    animation: pageFlutter 4s ease-in-out infinite;
+}
+
+.shelf-left .floating-page { right: -8px; animation-delay: 0.5s; }
+.shelf-right .floating-page { left: -8px; animation-delay: 1.2s; }
+
+@keyframes pageFlutter {
+    0%, 100% { transform: rotateY(0deg) translateY(0); opacity: 0.5; }
+    50% { transform: rotateY(-18deg) translateY(-4px); opacity: 0.85; }
+}
+
+.jelly-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.jelly {
+    position: absolute;
+    width: 56px;
+    height: 72px;
+    cursor: pointer;
+    pointer-events: auto;
+    opacity: 0.42;
+    transition: opacity 0.3s ease, transform 0.35s ease;
+    filter: drop-shadow(0 0 16px rgba(120, 220, 255, 0.45));
+}
+
+.jelly:hover {
+    opacity: 0.75;
+}
+
+.jelly-cap {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 70%;
+    height: 38%;
+    margin-left: -35%;
+    background: radial-gradient(ellipse at 50% 30%, rgba(180, 240, 255, 0.5), rgba(100, 180, 255, 0.15));
+    border-radius: 50% 50% 45% 45%;
+}
+
+.jelly-tentacles {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    top: 32%;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 4px,
+        rgba(160, 220, 255, 0.25) 4px,
+        rgba(160, 220, 255, 0.25) 6px
+    );
+    border-radius: 0 0 40% 40%;
+    animation: tentacleWave 2.5s ease-in-out infinite;
+}
+
+@keyframes tentacleWave {
+    0%, 100% { transform: scaleY(1) skewX(0deg); opacity: 0.6; }
+    50% { transform: scaleY(1.06) skewX(3deg); opacity: 0.95; }
+}
+
+/* 白鼬精灵 */
+.ferret-spirit {
+    position: relative;
+    z-index: 6;
+    width: min(200px, 42vw);
+    height: 140px;
+    margin: 0 auto;
+    pointer-events: none;
+    transform: translate3d(calc(var(--pl-mx) * 4px), calc(var(--pl-my) * 3px), 0);
+}
+
+.ferret-body {
+    position: absolute;
+    left: 50%;
+    top: 38px;
+    width: 100px;
+    height: 72px;
+    margin-left: -50px;
+    background: radial-gradient(ellipse at 40% 35%, #f8f8ff, #d8dce8);
+    border-radius: 48% 48% 42% 42%;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset -6px -8px 16px rgba(180, 190, 210, 0.35);
+}
+
+.ferret-head {
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 76px;
+    height: 64px;
+    margin-left: -38px;
+    background: radial-gradient(circle at 40% 35%, #ffffff, #e0e4f0);
+    border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.ferret-snout {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    width: 28px;
+    height: 18px;
+    margin-left: -14px;
+    background: #f0e8f0;
+    border-radius: 50%;
+}
+
+.ferret-glasses {
+    position: absolute;
+    left: 50%;
+    top: 28px;
+    width: 64px;
+    height: 18px;
+    margin-left: -32px;
+    border: 3px solid #2a3048;
+    border-radius: 6px;
+    background: rgba(200, 220, 255, 0.15);
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.ferret-glasses::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    width: 8px;
+    height: 12px;
+    margin-left: -4px;
+    background: #2a3048;
+}
+
+.ferret-ear {
+    position: absolute;
+    top: 4px;
+    width: 22px;
+    height: 22px;
+    background: #e8ecf5;
+    border-radius: 50%;
+}
+
+.ferret-ear-l { left: 4px; }
+.ferret-ear-r { right: 4px; }
+
+.ferret-scroll {
+    position: absolute;
+    right: -12px;
+    top: 52px;
+    width: 36px;
+    height: 48px;
+    background: linear-gradient(90deg, #fff9e6, #f0e0b8);
+    border-radius: 4px;
+    border: 1px solid rgba(200, 180, 120, 0.6);
+    box-shadow: 0 0 20px rgba(255, 230, 160, 0.55);
+    animation: scrollGlow 3s ease-in-out infinite;
+}
+
+.ferret-scroll::before {
+    content: "心象";
+    position: absolute;
+    inset: 6px;
+    font-size: 0.55rem;
+    color: #5a4a30;
+    line-height: 1.2;
+}
+
+@keyframes scrollGlow {
+    0%, 100% { box-shadow: 0 0 18px rgba(255, 230, 160, 0.45); }
+    50% { box-shadow: 0 0 32px rgba(200, 240, 255, 0.65); }
+}
+
+.ferret-reading .ferret-head {
+    animation: ferretNod 0.6s ease;
+}
+
+@keyframes ferretNod {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(4deg); }
+}
+
+/* 时间切换 + 翻书 */
+.time-tab-bar {
+    position: relative;
+    z-index: 8;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 12px 4px;
+}
+
+.psy-book-stage {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    margin-bottom: 6px;
+    perspective: 400px;
+}
+
+.psy-book-pages {
+    position: absolute;
+    left: 50%;
+    width: 80px;
+    height: 6px;
+    margin-left: -40px;
+    background: linear-gradient(90deg, rgba(255, 250, 240, 0.2), rgba(200, 220, 255, 0.15));
+    border-radius: 2px;
+    transform-origin: 50% 100%;
+    transition: transform 0.45s ease;
+}
+
+.psy-book-stage.book-flip .psy-book-pages {
+    transform: rotateX(-75deg);
+}
+
+.time-tab {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(102, 126, 234, 0.25);
+    background: rgba(255, 255, 255, 0.65);
+    color: #4a5568;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+    font-family: inherit;
+}
+
+.time-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(102, 126, 234, 0.18);
+}
+
+.time-tab.is-active {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.22), rgba(118, 75, 162, 0.16));
+    color: #2f3a4a;
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.18);
+}
+
+/* 六大魔法阵图表 */
+.magic-grid {
+    position: relative;
+    z-index: 8;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    padding: 8px 12px 12px;
+}
+
+.magic-card {
+    position: relative;
+    border-radius: 18px;
+    padding: 10px 10px 6px;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.78), rgba(235, 242, 255, 0.55));
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow: 0 10px 34px rgba(60, 120, 140, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+    cursor: pointer;
+    animation: cardBreathe 5s ease-in-out infinite;
+    overflow: hidden;
+}
+
+.magic-card:nth-child(2) { animation-delay: 0.6s; }
+.magic-card:nth-child(3) { animation-delay: 1.2s; }
+.magic-card:nth-child(4) { animation-delay: 0.3s; }
+.magic-card:nth-child(5) { animation-delay: 0.9s; }
+.magic-card:nth-child(6) { animation-delay: 1.5s; }
+
+.magic-card::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(from 0deg, transparent, rgba(120, 200, 255, 0.06), transparent 40%);
+    animation: magicRotate 18s linear infinite;
+    pointer-events: none;
+}
+
+.magic-card.sparkle-burst::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25), transparent 55%);
+    animation: burstFade 0.85s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes cardBreathe {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-3px) scale(1.01); }
+}
+
+@keyframes magicRotate {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes burstFade {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.magic-card h4 {
+    margin: 0 0 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #4a5568;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.magic-card .chart-box {
+    position: relative;
+    height: 150px;
+    z-index: 2;
+}
+
+.magic-ring {
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed rgba(102, 126, 234, 0.18);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ringPulse 4s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.03); opacity: 0.65; }
+}
+
+/* AI 解读区 */
+.psy-ai-panel {
+    position: relative;
+    z-index: 8;
+    margin: 0 12px 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    box-shadow: 0 12px 40px rgba(60, 120, 140, 0.14);
+}
+
+.psy-ai-panel h3 {
+    margin: 0 0 8px;
+    font-size: 0.88rem;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-glow-text {
+    font-size: 0.84rem;
+    line-height: 1.75;
+    color: #2f3a4a;
+    min-height: 4.5em;
+    cursor: pointer;
+    text-shadow: 0 0 12px rgba(160, 200, 255, 0.35);
+}
+
+.ai-glow-text .char-glow {
+    display: inline;
+    animation: charIn 0.4s ease forwards;
+}
+
+@keyframes charIn {
+    from {
+        opacity: 0;
+        text-shadow: 0 0 0 transparent;
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 14px rgba(180, 220, 255, 0.5);
+        filter: blur(0);
+    }
+}
+
+.ai-hint {
+    margin: 8px 0 0;
+    font-size: 0.68rem;
+    color: rgba(74, 85, 104, 0.7);
+}
+
+/* 原实时监测区 */
+.library-monitor {
+    position: relative;
+    z-index: 8;
+    margin: 0 12px 8px;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+}
+
+.library-monitor .monitor-controls {
+    margin-bottom: 10px;
+}
+
+.library-monitor .console-box {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(102, 126, 234, 0.18);
+    color: #2f3a4a;
+}
+
+/* 弹窗 */
+.pl-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.pl-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pl-modal-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 40, 60, 0.35);
+    backdrop-filter: blur(6px);
+}
+
+.pl-modal-box {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 440px);
+    max-height: min(75vh, 480px);
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 18px;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(235, 242, 255, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 24px 60px rgba(60, 120, 140, 0.22);
+}
+
+.pl-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.06);
+    color: #2f3a4a;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.pl-modal-box h4 {
+    margin: 0 0 10px;
+    color: #4a5568;
+}
+
+.pl-modal-box p {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: #2f3a4a;
+    white-space: pre-wrap;
+}
+
+.psy-hint-bar {
+    padding: 6px 12px 10px;
+    font-size: 0.65rem;
+    color: rgba(74, 85, 104, 0.65);
+    text-align: center;
+}

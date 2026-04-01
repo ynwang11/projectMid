@@ -55,46 +55,28 @@
             <div class="lilypad-light"></div>
         </div>
         
-        <!-- 治愈系天使精灵 -->
-        <div class="healing-angel" id="healingAngel">
-            <div class="angel-body">
-                <!-- 翅膀 -->
-                <div class="angel-wings">
-                    <div class="wing wing-left"></div>
-                    <div class="wing wing-right"></div>
+        <!-- 中央陪伴宠物（与前面板块统一风格） -->
+        <div class="healing-pet-wrap" id="healingPetWrap" aria-label="陪伴宠物">
+            <div class="healing-pet" id="healingPet" title="我会一直在这里">
+                <div class="pet-aura" aria-hidden="true"></div>
+                <div class="pet-projection" id="petProjection" aria-hidden="true"></div>
+                <div class="pet-ear pet-ear-l"></div>
+                <div class="pet-ear pet-ear-r"></div>
+                <div class="pet-head">
+                    <div class="pet-eye pet-eye-l"></div>
+                    <div class="pet-eye pet-eye-r"></div>
+                    <div class="pet-snout"></div>
+                    <div class="pet-mouth"></div>
                 </div>
-                
-                <!-- 身体 -->
-                <div class="angel-torso"></div>
-                
-                <!-- 头部 -->
-                <div class="angel-head">
-                    <div class="angel-face">
-                        <div class="eyes">
-                            <div class="eye eye-left"></div>
-                            <div class="eye eye-right"></div>
-                            <div class="eyelid eyelid-left"></div>
-                            <div class="eyelid eyelid-right"></div>
-                        </div>
-                        <div class="angel-mouth"></div>
-                    </div>
-                    <div class="angel-halo"></div>
-                </div>
-                
-                <!-- 手臂 -->
-                <div class="angel-arms">
-                    <div class="arm arm-left"></div>
-                    <div class="arm arm-right"></div>
-                </div>
-                
-                <!-- 腿部 -->
-                <div class="angel-legs">
-                    <div class="leg leg-left"></div>
-                    <div class="leg leg-right"></div>
-                </div>
-                
-                <!-- 柔光效果 -->
-                <div class="angel-glow"></div>
+                <div class="pet-body"></div>
+                <div class="pet-tail"></div>
+            </div>
+
+            <!-- 极端数据时的陪伴宠物（抱抱/贴贴） -->
+            <div class="companion-pet" id="companionPet" aria-hidden="true">
+                <div class="companion-body"></div>
+                <div class="companion-head"></div>
+                <div class="companion-arms"></div>
             </div>
         </div>
         
@@ -111,6 +93,13 @@
         
         <!-- 水母群 -->
         <div class="jellyfish-school">
+            <div class="sparkle-dots" aria-hidden="true">
+                <span class="dot" style="left:18%;top:36%"></span>
+                <span class="dot" style="left:42%;top:52%;animation-delay:.2s"></span>
+                <span class="dot" style="left:76%;top:40%;animation-delay:.4s"></span>
+                <span class="dot" style="left:55%;top:68%;animation-delay:.15s"></span>
+                <span class="dot" style="left:30%;top:58%;animation-delay:.35s"></span>
+            </div>
             <div class="jellyfish jellyfish-1"></div>
             <div class="jellyfish jellyfish-2"></div>
             <div class="jellyfish jellyfish-3"></div>
@@ -158,7 +147,8 @@
         </div>
         
         <!-- 功能面板容器 -->
-        <div class="function-panels">
+        <div class="function-panels" id="functionPanels">
+            <div class="panel-backdrop" id="panelBackdrop" aria-hidden="true"></div>
             <!-- 冥想音频面板 -->
             <div class="panel meditation-panel" id="meditationPanel">
                 <div class="panel-header">
@@ -175,16 +165,8 @@
                             </div>
                             <button class="play-btn"><i class="fas fa-play"></i></button>
                         </div>
-                        <div class="audio-item" data-audio="mind-clear" data-src="{{ url_for('static', filename='music/意识放空背景音.mp3') }}">
-                            <div class="audio-icon"><i class="fas fa-tree"></i></div>
-                            <div class="audio-info">
-                                <div class="audio-title">意识放空</div>
-                                <div class="audio-duration">本地音频</div>
-                            </div>
-                            <button class="play-btn"><i class="fas fa-play"></i></button>
-                        </div>
                         <div class="audio-item" data-audio="meditation-stream" data-src="{{ url_for('static', filename='music/打坐水流背景音.mp3') }}">
-                            <div class="audio-icon"><i class="fas fa-water"></i></div>
+                            <div class="audio-icon"><i class="fas fa-tree"></i></div>
                             <div class="audio-info">
                                 <div class="audio-title">打坐水流</div>
                                 <div class="audio-duration">本地音频</div>
@@ -195,6 +177,14 @@
                             <div class="audio-icon"><i class="fas fa-brain"></i></div>
                             <div class="audio-info">
                                 <div class="audio-title">海马体刺激</div>
+                                <div class="audio-duration">本地音频</div>
+                            </div>
+                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                        </div>
+                        <div class="audio-item" data-audio="mind-clear" data-src="{{ url_for('static', filename='music/意识放空背景音.mp3') }}">
+                            <div class="audio-icon"><i class="fas fa-water"></i></div>
+                            <div class="audio-info">
+                                <div class="audio-title">意识放空</div>
                                 <div class="audio-duration">本地音频</div>
                             </div>
                             <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -303,7 +293,7 @@
                             <div class="exercise-icon"><i class="fas fa-user"></i></div>
                             <div class="exercise-info">
                                 <div class="exercise-title">颈部放松</div>
-                                <div class="exercise-duration">5分钟</div>
+                                <div class="exercise-duration">2分钟</div>
                             </div>
                             <button class="start-btn">开始</button>
                         </div>
@@ -311,7 +301,7 @@
                             <div class="exercise-icon"><i class="fas fa-hands"></i></div>
                             <div class="exercise-info">
                                 <div class="exercise-title">肩部放松</div>
-                                <div class="exercise-duration">7分钟</div>
+                                <div class="exercise-duration">1分钟</div>
                             </div>
                             <button class="start-btn">开始</button>
                         </div>
@@ -319,7 +309,7 @@
                             <div class="exercise-icon"><i class="fas fa-lungs"></i></div>
                             <div class="exercise-info">
                                 <div class="exercise-title">呼吸放松</div>
-                                <div class="exercise-duration">10分钟</div>
+                                <div class="exercise-duration">1分钟</div>
                             </div>
                             <button class="start-btn">开始</button>
                         </div>
@@ -366,11 +356,17 @@
         <source src="https://assets.mixkit.co/music/preview/mixkit-deep-ambient-478.mp3" type="audio/mpeg">
     </audio>
     <audio id="meditationAudio" preload="metadata"></audio>
-    <audio id="rainAudio" loop>
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1248.mp3" type="audio/mpeg">
+    <audio id="rainAudio" loop preload="metadata">
+        <source src="{{ url_for('static', filename='music/白噪音细雨.mp3') }}" type="audio/mpeg">
     </audio>
-    <audio id="wavesAudio" loop>
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-waves-loop-1250.mp3" type="audio/mpeg">
+    <audio id="wavesAudio" loop preload="metadata">
+        <source src="{{ url_for('static', filename='music/白噪音海浪.mp3') }}" type="audio/mpeg">
+    </audio>
+    <audio id="windAudio" loop preload="metadata">
+        <source src="{{ url_for('static', filename='music/白噪音微风.mp3') }}" type="audio/mpeg">
+    </audio>
+    <audio id="fireAudio" loop preload="metadata">
+        <source src="{{ url_for('static', filename='music/白噪音篝火.mp3') }}" type="audio/mpeg">
     </audio>
     
     <!-- TTS语音合成 -->

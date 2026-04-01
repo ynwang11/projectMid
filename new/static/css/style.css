@@ -6,6 +6,16 @@ body, html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+:root {
+    --brand-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --brand-ink: #4a5568;
+    --brand-muted: #8a94a6;
+    --brand-bg: #f4f7f6;
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --shadow-soft: 0 8px 28px rgba(60, 120, 140, 0.14);
+}
+
 /* 首页容器：让内容完美居中 */
 .hero-container {
     height: 100vh;
@@ -766,6 +776,33 @@ body, html {
 
 .action-btn:hover {
     background: #e4e7ed;
+}
+
+.action-btn-primary,
+.action-btn-danger {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+.action-btn-primary {
+    background: var(--brand-grad);
+    color: #fff;
+}
+
+.action-btn-danger {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+    color: #fff;
+}
+
+.action-btn-primary:hover,
+.action-btn-danger:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.02);
 }
 
 .content-card {
