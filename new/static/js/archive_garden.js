@@ -291,6 +291,7 @@
     style.textContent = '@keyframes petalChar{0%{opacity:0;transform:translateY(-10px) rotate(-8deg)}100%{opacity:1;transform:translateY(var(--py,0)) rotate(0)}}';
     document.head.appendChild(style);
 
+<<<<<<< HEAD
     let currentRange = 'week';
 
     function loadHistory(range) {
@@ -366,6 +367,50 @@
     if (btnReadAgain) {
         btnReadAgain.addEventListener('click', () => {
             fetch('/api/history-data?range=' + encodeURIComponent(currentRange), { credentials: 'same-origin' })
+=======
+    fetch('/api/history-data', { credentials: 'same-origin' })
+        .then((r) => r.json())
+        .then((data) => {
+            if (data.season) root.setAttribute('data-season', data.season);
+            renderCrystals(data.reports);
+            renderCalendar(data.calendar, data.year, data.month, data.month_label);
+
+            if (fairyText && data.ai_summary) {
+                fairyText.textContent = '';
+                typePetals(data.ai_summary);
+            }
+
+            const canvas = document.getElementById('historyChart');
+            if (canvas && typeof Chart !== 'undefined' && data.labels && data.values) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: '历史检测得分',
+                            data: data.values,
+                            borderColor: '#2e7d4a',
+                            backgroundColor: 'rgba(46, 125, 74, 0.12)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: true } }
+                    }
+                });
+            }
+        })
+        .catch(() => {});
+
+    if (btnReadAgain) {
+        btnReadAgain.addEventListener('click', () => {
+            fetch('/api/history-data', { credentials: 'same-origin' })
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                 .then((r) => r.json())
                 .then((d) => {
                     if (d.ai_summary) speakSummary(d.ai_summary);

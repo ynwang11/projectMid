@@ -13,10 +13,16 @@
     min-height: 520px;
     border-radius: 18px;
     overflow: hidden;
+<<<<<<< HEAD
     /* 与控制台主风格统一：更柔和的“暮色玻璃”底色 */
     background: linear-gradient(185deg, #f3f6ff 0%, #edf3ff 35%, #eef7f2 70%, #f8f4ff 100%);
     font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
     color: #2f3a4a;
+=======
+    background: linear-gradient(185deg, #0a0e1a 0%, #12182c 35%, #1a2238 70%, #0f1424 100%);
+    font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #e8ecff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .psycho-library::before {
@@ -24,6 +30,7 @@
     position: absolute;
     inset: 0;
     background-image:
+<<<<<<< HEAD
         radial-gradient(2px 2px at 10% 20%, rgba(102, 126, 234, 0.35), transparent),
         radial-gradient(1.5px 1.5px at 30% 55%, rgba(118, 75, 162, 0.25), transparent),
         radial-gradient(1px 1px at 70% 30%, rgba(60, 160, 200, 0.22), transparent),
@@ -31,6 +38,15 @@
         radial-gradient(1px 1px at 50% 80%, rgba(120, 200, 255, 0.18), transparent);
     background-size: 100% 100%;
     opacity: 0.9;
+=======
+        radial-gradient(2px 2px at 10% 20%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.5px 1.5px at 30% 55%, rgba(200, 230, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(1.5px 1.5px at 85% 65%, rgba(180, 210, 255, 0.75), transparent),
+        radial-gradient(1px 1px at 50% 80%, rgba(255, 255, 255, 0.5), transparent);
+    background-size: 100% 100%;
+    opacity: 0.55;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     pointer-events: none;
     animation: starTwinkle 6s ease-in-out infinite alternate;
 }
@@ -46,7 +62,11 @@
     left: 0;
     right: 0;
     height: 38%;
+<<<<<<< HEAD
     background: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(102, 126, 234, 0.16), transparent 70%);
+=======
+    background: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(80, 120, 200, 0.25), transparent 70%);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     pointer-events: none;
     transform: translate3d(calc(var(--pl-mx) * -12px), calc(var(--pl-my) * -8px), 0);
     transition: transform 0.12s ease-out;
@@ -339,9 +359,15 @@
     position: relative;
     padding: 0.5rem 1rem;
     border-radius: 999px;
+<<<<<<< HEAD
     border: 1px solid rgba(102, 126, 234, 0.25);
     background: rgba(255, 255, 255, 0.65);
     color: #4a5568;
+=======
+    border: 1px solid rgba(160, 200, 255, 0.35);
+    background: rgba(20, 30, 55, 0.6);
+    color: #c8d8ff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     font-size: 0.82rem;
     cursor: pointer;
     transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
@@ -350,6 +376,7 @@
 
 .time-tab:hover {
     transform: translateY(-2px);
+<<<<<<< HEAD
     box-shadow: 0 10px 28px rgba(102, 126, 234, 0.18);
 }
 
@@ -357,6 +384,15 @@
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.22), rgba(118, 75, 162, 0.16));
     color: #2f3a4a;
     box-shadow: 0 12px 32px rgba(102, 126, 234, 0.18);
+=======
+    box-shadow: 0 6px 20px rgba(100, 160, 255, 0.25);
+}
+
+.time-tab.is-active {
+    background: linear-gradient(135deg, rgba(100, 140, 255, 0.45), rgba(60, 100, 200, 0.35));
+    color: #fff;
+    box-shadow: 0 0 24px rgba(120, 180, 255, 0.45);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 /* 六大魔法阵图表 */
@@ -373,9 +409,15 @@
     position: relative;
     border-radius: 18px;
     padding: 10px 10px 6px;
+<<<<<<< HEAD
     background: linear-gradient(165deg, rgba(255, 255, 255, 0.78), rgba(235, 242, 255, 0.55));
     border: 1px solid rgba(255, 255, 255, 0.72);
     box-shadow: 0 10px 34px rgba(60, 120, 140, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+=======
+    background: radial-gradient(ellipse at 50% 0%, rgba(80, 120, 200, 0.22), rgba(15, 20, 40, 0.85));
+    border: 1px solid rgba(140, 180, 255, 0.28);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 12px 32px rgba(0, 0, 0, 0.35);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     cursor: pointer;
     animation: cardBreathe 5s ease-in-out infinite;
     overflow: hidden;
@@ -423,7 +465,11 @@
     margin: 0 0 4px;
     font-size: 0.72rem;
     font-weight: 600;
+<<<<<<< HEAD
     color: #4a5568;
+=======
+    color: #a8c0ff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     position: relative;
     z-index: 2;
     display: flex;
@@ -440,7 +486,11 @@
 .magic-ring {
     position: absolute;
     inset: 8px;
+<<<<<<< HEAD
     border: 1px dashed rgba(102, 126, 234, 0.18);
+=======
+    border: 1px dashed rgba(160, 200, 255, 0.2);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     border-radius: 50%;
     pointer-events: none;
     animation: ringPulse 4s ease-in-out infinite;
@@ -458,15 +508,25 @@
     margin: 0 12px 12px;
     padding: 14px 16px;
     border-radius: 16px;
+<<<<<<< HEAD
     background: rgba(255, 255, 255, 0.72);
     border: 1px solid rgba(255, 255, 255, 0.78);
     box-shadow: 0 12px 40px rgba(60, 120, 140, 0.14);
+=======
+    background: rgba(12, 18, 40, 0.75);
+    border: 1px solid rgba(120, 160, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .psy-ai-panel h3 {
     margin: 0 0 8px;
     font-size: 0.88rem;
+<<<<<<< HEAD
     color: #4a5568;
+=======
+    color: #b8d0ff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     display: flex;
     align-items: center;
     gap: 8px;
@@ -475,7 +535,11 @@
 .ai-glow-text {
     font-size: 0.84rem;
     line-height: 1.75;
+<<<<<<< HEAD
     color: #2f3a4a;
+=======
+    color: #dce6ff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     min-height: 4.5em;
     cursor: pointer;
     text-shadow: 0 0 12px rgba(160, 200, 255, 0.35);
@@ -502,7 +566,11 @@
 .ai-hint {
     margin: 8px 0 0;
     font-size: 0.68rem;
+<<<<<<< HEAD
     color: rgba(74, 85, 104, 0.7);
+=======
+    color: rgba(180, 200, 255, 0.55);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 /* 原实时监测区 */
@@ -512,8 +580,13 @@
     margin: 0 12px 8px;
     padding: 14px;
     border-radius: 14px;
+<<<<<<< HEAD
     background: rgba(255, 255, 255, 0.72);
     border: 1px solid rgba(255, 255, 255, 0.78);
+=======
+    background: rgba(8, 12, 28, 0.85);
+    border: 1px solid rgba(100, 140, 200, 0.2);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .library-monitor .monitor-controls {
@@ -521,9 +594,15 @@
 }
 
 .library-monitor .console-box {
+<<<<<<< HEAD
     background: rgba(255, 255, 255, 0.55);
     border: 1px solid rgba(102, 126, 234, 0.18);
     color: #2f3a4a;
+=======
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(120, 160, 255, 0.15);
+    color: #c8e0ff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 /* 弹窗 */
@@ -548,7 +627,11 @@
 .pl-modal-bg {
     position: absolute;
     inset: 0;
+<<<<<<< HEAD
     background: rgba(30, 40, 60, 0.35);
+=======
+    background: rgba(5, 10, 25, 0.65);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     backdrop-filter: blur(6px);
 }
 
@@ -560,9 +643,15 @@
     overflow-y: auto;
     padding: 20px;
     border-radius: 18px;
+<<<<<<< HEAD
     background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(235, 242, 255, 0.9));
     border: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 24px 60px rgba(60, 120, 140, 0.22);
+=======
+    background: linear-gradient(165deg, rgba(28, 36, 64, 0.98), rgba(16, 22, 44, 0.99));
+    border: 1px solid rgba(140, 180, 255, 0.35);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(100, 160, 255, 0.15);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .pl-modal-close {
@@ -573,28 +662,45 @@
     height: 36px;
     border: none;
     border-radius: 50%;
+<<<<<<< HEAD
     background: rgba(0, 0, 0, 0.06);
     color: #2f3a4a;
+=======
+    background: rgba(255, 255, 255, 0.08);
+    color: #e8ecff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     cursor: pointer;
     font-size: 1.1rem;
 }
 
 .pl-modal-box h4 {
     margin: 0 0 10px;
+<<<<<<< HEAD
     color: #4a5568;
+=======
+    color: #a8c8ff;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .pl-modal-box p {
     margin: 0;
     font-size: 0.86rem;
     line-height: 1.55;
+<<<<<<< HEAD
     color: #2f3a4a;
+=======
+    color: #c8d4f0;
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     white-space: pre-wrap;
 }
 
 .psy-hint-bar {
     padding: 6px 12px 10px;
     font-size: 0.65rem;
+<<<<<<< HEAD
     color: rgba(74, 85, 104, 0.65);
+=======
+    color: rgba(180, 200, 255, 0.45);
+>>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     text-align: center;
 }
