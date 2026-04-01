@@ -8,7 +8,6 @@
     const btnExport = document.getElementById('btnExport');
     const exportToast = document.getElementById('exportToast');
 
-<<<<<<< HEAD
     const customGrid = document.getElementById('customGrid');
     const emotionInput = document.getElementById('emotionInput');
     const btnVoice = document.getElementById('btnVoice');
@@ -18,8 +17,6 @@
     const badList = document.getElementById('badList');
     const goodList = document.getElementById('goodList');
 
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     const lampModes = ['mid', 'bright', 'dim'];
     let lampIdx = 0;
 
@@ -136,7 +133,6 @@
             }, 5200);
         });
     }
-<<<<<<< HEAD
 
     /* ---------------- 个性化定制（本地示意：CSS 变量 + localStorage） ---------------- */
     const LS = {
@@ -297,6 +293,4 @@
             }
         });
     }
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 })();

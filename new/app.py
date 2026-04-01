@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
-
-app = Flask(__name__)
-
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import os
+import json
+from datetime import datetime, timedelta, date
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here' # 必须设置密钥以启用 session
@@ -189,6 +188,77 @@ def launch():
 def index():
     return render_template('index.html')
 
+
+@app.route('/healing')
+def healing():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    return render_template('healing.html')
+
+
+@app.route('/profile')
+def profile_archive():
+    """个人身心档案 & 隐私中心（精灵小屋场景）。"""
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    return render_template('profile_cabin.html', user=session.get('user'))
+
+
+@app.route('/subscription')
+def subscription():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    return render_template('subscription.html', subscribed=bool(session.get('subscribed')))
+
+
+@app.route('/settings/ai', methods=['GET', 'POST'])
+def ai_settings():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    user = session.get('user')
+    cfg = _load_user_config(user)
+    if request.method == 'POST':
+        api_key = (request.form.get('api_key') or '').strip()
+        base_url = (request.form.get('base_url') or '').strip() or 'http://127.0.0.1:11434'
+        model = (request.form.get('model') or '').strip() or 'qwen2.5:1.5b'
+        # 仅示意：生产环境请使用安全的密钥管理与服务端会话存储
+        cfg.update({"openai_api_key": api_key, "openai_base_url": base_url, "openai_model": model})
+        _save_user_config(user, cfg)
+        return redirect(url_for('ai_settings'))
+    return render_template('ai_settings.html', cfg=cfg)
+
+
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    action = request.form.get('action', 'start')
+    if action == 'cancel':
+        session['subscribed'] = False
+    else:
+        session['subscribed'] = True
+    return redirect(url_for('subscription'))
+
+
+@app.route('/api/subscription-status')
+def subscription_status():
+    if not session.get('user'):
+        return jsonify({"subscribed": False}), 401
+    return jsonify({"subscribed": bool(session.get('subscribed'))})
+
+
+@app.route('/api/healing-vitals')
+def healing_vitals():
+    """模拟生理状态：异常时前端切换极柔和安抚场景（无警报）。"""
+    import random
+    force = request.args.get('force')
+    if force == 'calm':
+        return jsonify({'abnormal': True, 'soft': True})
+    if force == 'ok':
+        return jsonify({'abnormal': False, 'soft': True})
+    return jsonify({'abnormal': random.random() < 0.06, 'soft': True})
+
+
 # ---------------------------------------------------------
 # 路由 2：网页端主界面（处理工具切换和结果展示）
 # ---------------------------------------------------------
@@ -272,8 +342,310 @@ def stream():
     return Response(generate_realtime_data(), mimetype='text/event-stream')
 
 
+@app.route("/api/vitals-live")
+def vitals_live():
+    """模拟实时生理与情绪数据，驱动耳狐状态与魔法球配色。"""
+    import random
+    import time
+
+    random.seed(int(time.time() * 10) % 100000)
+
+    def walk_series(n, start, spread):
+        out = []
+        v = float(start)
+        for _ in range(n):
+            v += random.uniform(-spread, spread)
+            out.append(round(v, 2))
+        return out
+
+    hr = int(round(random.uniform(62, 96)))
+    resp = round(random.uniform(11, 22), 1)
+    eda = round(random.uniform(0.1, 1.8), 2)
+    hrv = int(round(random.uniform(28, 68)))
+    temp = round(random.uniform(36.0, 37.4), 1)
+
+    stress = random.uniform(0.12, 0.88)
+    hr_stable = random.random() > 0.42
+    resp_stable = random.random() > 0.38
+
+    if stress < 0.38:
+        emotion = "calm"
+    elif stress < 0.58:
+        emotion = "relaxed"
+    else:
+        emotion = "anxious"
+
+    abnormal = stress > 0.74 or hr < 56 or hr > 108 or (not resp_stable and stress > 0.62)
+
+    return jsonify(
+        {
+            "hr": hr,
+            "resp": resp,
+            "eda": eda,
+            "hrv": hrv,
+            "temp": temp,
+            "stress": round(stress, 3),
+            "hr_stable": hr_stable,
+            "resp_stable": resp_stable,
+            "emotion": emotion,
+            "abnormal": abnormal,
+            "series": {
+                "hr": walk_series(32, hr, 1.8),
+                "resp": walk_series(32, resp, 0.35),
+                "eda": walk_series(32, eda, 0.08),
+                "hrv": walk_series(32, hrv, 2.0),
+                "temp": walk_series(32, temp, 0.04),
+            },
+        }
+    )
+
+
+@app.route("/api/vitals-store", methods=["POST"])
+def vitals_store():
+    """前端周期性上报 vitals，用于长期报告馆汇总（不要求用户手输）。"""
+    user = session.get("user")
+    if not user:
+        return jsonify({"ok": False, "error": "not_logged_in"}), 401
+
+    payload = request.get_json(silent=True) or {}
+    # 只保存关键信息，避免体积膨胀
+    slim = {
+        "ts": datetime.utcnow().isoformat(timespec="seconds"),
+        "hr": payload.get("hr"),
+        "resp": payload.get("resp"),
+        "eda": payload.get("eda"),
+        "hrv": payload.get("hrv"),
+        "temp": payload.get("temp"),
+        "stress": payload.get("stress"),
+        "emotion": payload.get("emotion"),
+        "abnormal": payload.get("abnormal"),
+        "hr_stable": payload.get("hr_stable"),
+        "resp_stable": payload.get("resp_stable"),
+    }
+    slim["score"] = _score_from_vitals(slim)
+    _append_jsonl(_vitals_path(user), slim)
+    return jsonify({"ok": True})
+
+
 @app.route('/api/history-data')
 def get_history_data():
+    """长期报告馆数据：从暂存 vitals 聚合生成 1周/1月/3月/1年 维度趋势。"""
+    import calendar as calmod
+
+    user = session.get("user")
+    if not user:
+        return jsonify({"error": "not_logged_in"}), 401
+    subscribed = bool(session.get("subscribed"))
+
+    rng = request.args.get("range", "week")
+    if not subscribed and rng in ("month", "quarter", "year", "3m", "3month", "months"):
+        return jsonify({"error": "subscription_required", "allowed": ["week"]}), 402
+    now = datetime.utcnow()
+    if rng == "year":
+        since = now - timedelta(days=365)
+        labels = [f"{i + 1}月" for i in range(12)]
+    elif rng in ("quarter", "3m", "3month", "months"):
+        since = now - timedelta(days=90)
+        labels = [f"第{i + 1}周" for i in range(13)]
+        rng = "quarter"
+    elif rng == "month":
+        since = now - timedelta(days=30)
+        labels = [f"第{i + 1}周" for i in range(5)]
+    else:
+        since = now - timedelta(days=7)
+        labels = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        rng = "week"
+
+    records = _load_jsonl(_vitals_path(user), since=since)
+    # 用 score 做聚合
+    values = []
+    if rng == "week":
+        by_wd: dict[int, list[int]] = {i: [] for i in range(7)}
+        for r in records:
+            ts = r.get("ts")
+            if not ts:
+                continue
+            try:
+                dt = datetime.fromisoformat(ts)
+            except Exception:
+                continue
+            by_wd[dt.weekday()].append(int(r.get("score", 0) or 0))
+        for i in range(7):
+            xs = by_wd.get(i) or []
+            values.append(int(round(sum(xs) / len(xs))) if xs else 0)
+    elif rng in ("month", "quarter"):
+        # 以周为桶
+        weeks = 5 if rng == "month" else 13
+        buckets: list[list[int]] = [[] for _ in range(weeks)]
+        for r in records:
+            ts = r.get("ts")
+            if not ts:
+                continue
+            try:
+                dt = datetime.fromisoformat(ts)
+            except Exception:
+                continue
+            idx = int((dt - since).days // 7)
+            if 0 <= idx < weeks:
+                buckets[idx].append(int(r.get("score", 0) or 0))
+        values = [int(round(sum(b) / len(b))) if b else 0 for b in buckets]
+    else:
+        # year：按月桶
+        buckets: dict[int, list[int]] = {i: [] for i in range(1, 13)}
+        for r in records:
+            ts = r.get("ts")
+            if not ts:
+                continue
+            try:
+                dt = datetime.fromisoformat(ts)
+            except Exception:
+                continue
+            buckets[dt.month].append(int(r.get("score", 0) or 0))
+        values = [int(round(sum(buckets[i + 1]) / len(buckets[i + 1]))) if buckets[i + 1] else 0 for i in range(12)]
+
+    # 若暂无记录，用稳定的“柔和”默认值，避免空图造成割裂
+    if not records or all(v == 0 for v in values):
+        seed = hash((rng, user)) % 10
+        base = 78 + (seed - 5)
+        values = [max(55, min(92, base + (i % 3 - 1) * 3)) for i in range(len(labels))]
+
+    today = date.today()
+    y, m = today.year, today.month
+    _, days_in_month = calmod.monthrange(y, m)
+
+    # 日历：优先用本月记录生成，没有的天用空白默认
+    day_scores: dict[int, list[int]] = {d: [] for d in range(1, days_in_month + 1)}
+    month_since = datetime(today.year, today.month, 1)
+    month_records = _load_jsonl(_vitals_path(user), since=month_since)
+    for r in month_records:
+        ts = r.get("ts")
+        if not ts:
+            continue
+        try:
+            dt = datetime.fromisoformat(ts)
+        except Exception:
+            continue
+        if dt.year == y and dt.month == m:
+            day_scores.get(dt.day, []).append(int(r.get("score", 0) or 0))
+
+    calendar_days = []
+    for d in range(1, days_in_month + 1):
+        xs = day_scores.get(d) or []
+        score = int(round(sum(xs) / len(xs))) if xs else 0
+        if score == 0:
+            # 0 表示暂无记录：用“休整”色淡化显示
+            mood = "rest"
+            score = 60
+        elif score >= 86:
+            mood = "great"
+        elif score >= 76:
+            mood = "good"
+        elif score >= 68:
+            mood = "calm"
+        elif score >= 58:
+            mood = "low"
+        else:
+            mood = "rest"
+        calendar_days.append({"day": d, "score": score, "mood": mood})
+
+    if 3 <= m <= 5:
+        season = "spring"
+    elif 6 <= m <= 8:
+        season = "summer"
+    elif 9 <= m <= 11:
+        season = "autumn"
+    else:
+        season = "winter"
+
+    avg = int(round(sum(values) / max(len(values), 1)))
+    range_label = {"week": "近一周", "month": "近一月", "quarter": "近三月", "year": "近一年"}.get(rng, "近一周")
+    ai_summary = (
+        f"{range_label}身心指数均值约 {avg}。这里的数据来自你在「生理实时监测」与疗愈互动中的暂存记录，"
+        "无需手动重复输入。若你希望更完整的长期报告，可持续使用监测与情绪记录功能。"
+    )
+
+    # 水晶档案：根据选择的时间维度，突出当前区间
+    reports = [
+        {
+            "id": f"{rng}-summary",
+            "type": "week" if rng == "week" else "month" if rng == "month" else "year" if rng == "year" else "month",
+            "title": f"{range_label} · 趋势报告",
+            "summary": f"本段均值 {avg}，趋势已汇总到下方曲线。",
+            "detail": "【趋势报告】\n"
+            f"· 统计区间：{range_label}\n"
+            f"· 记录条数：{len(records)}\n"
+            "· 建议：在压力波峰前加入 3 分钟呼吸锚定或短步行，让身心恢复更可持续。",
+        }
+    ]
+
+    return jsonify(
+        {
+            "range": rng,
+            "labels": labels,
+            "values": values,
+            "season": season,
+            "year": y,
+            "month": m,
+            "month_label": f"{m} 月",
+            "calendar": calendar_days,
+            "reports": reports,
+            "ai_summary": ai_summary,
+        }
+    )
+
+
+@app.route("/api/ai-chat", methods=["POST"])
+def ai_chat():
+    """简易 AI 接入占位：后续可替换为真实模型调用。"""
+    user = session.get("user")
+    if not user:
+        return jsonify({"error": "not_logged_in"}), 401
+    subscribed = bool(session.get("subscribed"))
+    if not subscribed:
+        return jsonify({"error": "subscription_required"}), 402
+
+    payload = request.get_json(silent=True) or {}
+    text = (payload.get("text") or "").strip()
+    if not text:
+        return jsonify({"reply": "我在这里。你可以先说一句：你现在最难受的点是什么？"})
+
+    cfg = _load_user_config(user)
+    api_key = (cfg.get("openai_api_key") or "").strip()
+    base_url = (cfg.get("openai_base_url") or "http://127.0.0.1:11434").strip().rstrip("/")
+    model = (cfg.get("openai_model") or "qwen2.5:1.5b").strip()
+
+    use_ollama_local = (not api_key) and _is_local_ollama_base(base_url)
+    # 云端 OpenAI 兼容：必须有 Key；本地 Ollama：可无 Key
+    if not api_key and not use_ollama_local:
+        reply = (
+            "我听见了。我们先把强度降下来：现在请做一次 4 秒吸气—2 秒停—6 秒呼气。\n"
+            "然后告诉我：这份难受更像是「紧张/焦虑」、还是「委屈/难过」、还是「愤怒/不公平」？"
+        )
+        return jsonify({"reply": reply, "mode": "fallback"})
+
+    messages = [
+        {
+            "role": "system",
+            "content": "你是温柔、专业的心理陪伴助手。避免诊断；先共情，再给一个可执行的小步骤。",
+        },
+        {"role": "user", "content": text},
+    ]
+    timeout = 120 if use_ollama_local else 60
+
+    try:
+        reply = _openai_compatible_chat(base_url, model, messages, api_key or None, timeout)
+        return jsonify({"reply": reply, "mode": "ollama" if use_ollama_local else "openai"})
+    except Exception:
+        reply = (
+            "我在这里。先别急着解决所有问题，我们只做一件小事：把肩膀放松，慢慢把呼气拉长。\n"
+            "你愿意告诉我：此刻你最需要的是被理解、被支持，还是一个具体解决方案？"
+        )
+        return jsonify({"reply": reply, "mode": "degraded"})
+
+
+@app.route("/api/psych-analysis")
+def psych_analysis():
+    """心理多维分析可视化数据（按时间维度切换）；与 /stream 实时流独立。"""
     import random
 
     rng = request.args.get("range", "today")

@@ -2,12 +2,8 @@
     'use strict';
 
     const scene = document.getElementById('healingScene');
-<<<<<<< HEAD
     const pet = document.getElementById('healingPet');
     const petProjection = document.getElementById('petProjection');
-=======
-    const angel = document.getElementById('healingAngel');
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     const seaweedRoot = document.getElementById('seaweedContainer');
     const particleRoot = document.getElementById('calmingParticles');
     const speechMount = document.getElementById('speechBubbles');
@@ -16,17 +12,11 @@
     const breathingGuide = document.getElementById('breathingGuide');
 
     const ambient = document.getElementById('ambientMusic');
-<<<<<<< HEAD
     const meditationAudio = document.getElementById('meditationAudio');
     const rainAudio = document.getElementById('rainAudio');
     const wavesAudio = document.getElementById('wavesAudio');
     const windAudio = document.getElementById('windAudio');
     const fireAudio = document.getElementById('fireAudio');
-=======
-    const breathingAudio = document.getElementById('breathingAudio');
-    const rainAudio = document.getElementById('rainAudio');
-    const wavesAudio = document.getElementById('wavesAudio');
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 
     const BREATH = { inhale: 4000, hold: 2000, exhale: 4000 };
     const panelMap = {
@@ -45,12 +35,6 @@
     let breathePhase = 'inhale';
     let breathePhaseTimer = null;
     let syncTaps = 0;
-<<<<<<< HEAD
-=======
-    let noiseCtx = null;
-    let windNode = null;
-    let fireNode = null;
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 
     function setParallax(dx, dy) {
         parallaxX = Math.max(-55, Math.min(55, parallaxX + dx));
@@ -160,19 +144,12 @@
             breathePhase = phases[i][0];
             setBreathLabels();
             if (breathePhase === 'inhale' && syncTaps >= 2) {
-<<<<<<< HEAD
                 if (pet) {
                     pet.classList.remove('pet--nod');
                     void pet.offsetWidth;
                     pet.classList.add('pet--nod');
                     setTimeout(() => pet.classList.remove('pet--nod'), 900);
                 }
-=======
-                angel.classList.remove('angel--nod');
-                void angel.offsetWidth;
-                angel.classList.add('angel--nod');
-                setTimeout(() => angel.classList.remove('angel--nod'), 900);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                 syncTaps = 0;
             }
             const ms = phases[i][1];
@@ -229,20 +206,12 @@
 
     /** 音频节奏：水母与光点 */
     function updateAudioPulse() {
-<<<<<<< HEAD
         const playing = [ambient, meditationAudio, rainAudio, wavesAudio, windAudio, fireAudio].some((a) => a && !a.paused);
-=======
-        const playing = [ambient, breathingAudio, rainAudio, wavesAudio].some((a) => a && !a.paused);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
         scene.classList.toggle('scene--audio-pulse', playing);
         audioPulseOn = playing;
     }
 
-<<<<<<< HEAD
     [ambient, meditationAudio, rainAudio, wavesAudio, windAudio, fireAudio].forEach((a) => {
-=======
-    [ambient, breathingAudio, rainAudio, wavesAudio].forEach((a) => {
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
         if (!a) return;
         a.addEventListener('play', updateAudioPulse);
         a.addEventListener('pause', updateAudioPulse);
@@ -250,7 +219,6 @@
     });
 
     /** 冥想面板 */
-<<<<<<< HEAD
     const progressBar = document.querySelector('.meditation-panel .progress-bar');
     const progressFill = document.querySelector('.meditation-panel .progress-fill');
     const playPauseBtn = document.querySelector('.meditation-panel .play-pause-btn');
@@ -300,41 +268,11 @@
             } else {
                 loadTrack(idx, true);
             }
-=======
-    let meditationPlaying = false;
-    const progressFill = document.querySelector('.progress-fill');
-    const playPauseBtn = document.querySelector('.play-pause-btn');
-
-    function setMedProgress(t) {
-        if (progressFill) progressFill.style.width = Math.min(100, t) + '%';
-    }
-
-    document.querySelectorAll('.audio-item .play-btn').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const item = btn.closest('.audio-item');
-            const id = item && item.getAttribute('data-audio');
-            if (breathingAudio) {
-                try {
-                    breathingAudio.currentTime = 0;
-                    breathingAudio.play().catch(() => {});
-                } catch (_) {}
-            }
-            meditationPlaying = true;
-            updateAudioPulse();
-            let p = 0;
-            const iv = window.setInterval(() => {
-                p += 1.2;
-                setMedProgress(p);
-                if (p >= 100) window.clearInterval(iv);
-            }, 300);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
         });
     });
 
     if (playPauseBtn) {
         playPauseBtn.addEventListener('click', () => {
-<<<<<<< HEAD
             if (!meditationAudio || !audioItems.length) return;
             if (currentTrackIndex < 0) {
                 loadTrack(0, true);
@@ -451,83 +389,10 @@
         fire: fireAudio
     };
 
-=======
-            if (!breathingAudio) return;
-            if (breathingAudio.paused) {
-                breathingAudio.play().catch(() => {});
-                playPauseBtn.querySelector('i').className = 'fas fa-pause';
-            } else {
-                breathingAudio.pause();
-                playPauseBtn.querySelector('i').className = 'fas fa-play';
-            }
-            updateAudioPulse();
-        });
-    }
-
-    /** 白噪音 */
-    const noiseGain = { rain: 0.5, waves: 0.5, wind: 0, fire: 0 };
-
-    function ensureNoiseCtx() {
-        if (!noiseCtx) {
-            const AC = window.AudioContext || window.webkitAudioContext;
-            if (!AC) return null;
-            noiseCtx = new AC();
-        }
-        return noiseCtx;
-    }
-
-    function makeWind() {
-        const ctx = ensureNoiseCtx();
-        if (!ctx) return;
-        if (windNode) return;
-        const bufferSize = 2 * ctx.sampleRate;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-        const src = ctx.createBufferSource();
-        src.buffer = buffer;
-        src.loop = true;
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 800;
-        const gain = ctx.createGain();
-        gain.gain.value = 0;
-        src.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-        src.start(0);
-        windNode = { src, gain };
-    }
-
-    function makeFire() {
-        const ctx = ensureNoiseCtx();
-        if (!ctx) return;
-        if (fireNode) return;
-        const count = 3;
-        const oscs = [];
-        const gain = ctx.createGain();
-        gain.gain.value = 0;
-        for (let i = 0; i < count; i++) {
-            const o = ctx.createOscillator();
-            o.type = 'sawtooth';
-            o.frequency.value = 40 + i * 18 + Math.random() * 8;
-            const g = ctx.createGain();
-            g.gain.value = 0.02;
-            o.connect(g);
-            g.connect(gain);
-            o.start(0);
-            oscs.push(o);
-        }
-        gain.connect(ctx.destination);
-        fireNode = { oscs, gain };
-    }
-
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     document.querySelectorAll('.noise-item').forEach((item) => {
         const type = item.getAttribute('data-noise');
         const slider = item.querySelector('.volume-slider');
         if (!slider) return;
-<<<<<<< HEAD
         const audio = noiseTracks[type];
         if (!audio) return;
         // 初始值
@@ -537,39 +402,6 @@
             audio.volume = v;
             if (v > 0.02) audio.play().catch(() => {});
             else audio.pause();
-=======
-        slider.addEventListener('input', () => {
-            const v = Number(slider.value) / 100;
-            if (type === 'rain') {
-                noiseGain.rain = v;
-                if (rainAudio) {
-                    rainAudio.volume = v;
-                    if (v > 0.02) rainAudio.play().catch(() => {});
-                    else rainAudio.pause();
-                }
-            } else if (type === 'waves') {
-                noiseGain.waves = v;
-                if (wavesAudio) {
-                    wavesAudio.volume = v;
-                    if (v > 0.02) wavesAudio.play().catch(() => {});
-                    else wavesAudio.pause();
-                }
-            } else if (type === 'wind') {
-                noiseGain.wind = v;
-                makeWind();
-                if (windNode && noiseCtx) {
-                    if (noiseCtx.state === 'suspended') noiseCtx.resume();
-                    windNode.gain.gain.value = v * 0.35;
-                }
-            } else if (type === 'fire') {
-                noiseGain.fire = v;
-                makeFire();
-                if (fireNode && noiseCtx) {
-                    if (noiseCtx.state === 'suspended') noiseCtx.resume();
-                    fireNode.gain.gain.value = v * 0.08;
-                }
-            }
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
             updateAudioPulse();
         });
     });
@@ -612,15 +444,9 @@
     }
 
     function fairySpeak(text) {
-<<<<<<< HEAD
         if (pet) pet.classList.add('pet--speaking');
         showFairyBubble(text);
         window.setTimeout(() => { if (pet) pet.classList.remove('pet--speaking'); }, Math.min(4500, text.length * 120));
-=======
-        angel.classList.add('angel--speaking');
-        showFairyBubble(text);
-        window.setTimeout(() => angel.classList.remove('angel--speaking'), Math.min(4500, text.length * 120));
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     }
 
     function sendChat() {
@@ -628,7 +454,6 @@
         if (!t) return;
         pushChat('user', t);
         chatInput.value = '';
-<<<<<<< HEAD
         fetch('/api/ai-chat', {
             method: 'POST',
             credentials: 'same-origin',
@@ -648,13 +473,6 @@
                 pushChat('ai', reply);
                 fairySpeak(reply);
             });
-=======
-        window.setTimeout(() => {
-            const reply = fairyReplies[Math.floor(Math.random() * fairyReplies.length)];
-            pushChat('ai', reply);
-            fairySpeak(reply);
-        }, 600);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     }
 
     if (sendBtn) sendBtn.addEventListener('click', sendChat);
@@ -707,17 +525,12 @@
         scene.classList.add('scene--soothe');
         if (isFirst) {
             spawnParticles(28, 0.55);
-<<<<<<< HEAD
             if (pet) {
                 pet.classList.add('pet--speaking');
                 window.setTimeout(() => pet.classList.remove('pet--speaking'), 400);
             }
             // 自动播放更柔和的环境音（可能受浏览器手势限制）
             if (ambient && ambient.paused) ambient.play().catch(() => {});
-=======
-            angel.classList.add('angel--speaking');
-            window.setTimeout(() => angel.classList.remove('angel--speaking'), 400);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
             fairySpeak('我在这里，我们一起把呼吸放慢一点。你是安全的。');
         }
     }
@@ -728,7 +541,6 @@
 
     async function pollVitals() {
         try {
-<<<<<<< HEAD
             const r = await fetch('/api/vitals-live', { credentials: 'same-origin' });
             if (!r.ok) return;
             const data = await r.json();
@@ -750,12 +562,6 @@
             }
 
             if (data.abnormal || Number(data.stress || 0) > 0.78) {
-=======
-            const r = await fetch('/api/healing-vitals', { credentials: 'same-origin' });
-            if (!r.ok) return;
-            const data = await r.json();
-            if (data.abnormal) {
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                 enterSoothe(!scene.classList.contains('scene--soothe'));
             } else {
                 leaveSootheSoft();

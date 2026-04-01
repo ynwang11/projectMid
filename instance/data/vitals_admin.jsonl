@@ -1,0 +1,14 @@
+{"ts": "2026-04-01T16:29:22", "hr": 78, "resp": 12.8, "eda": 1.78, "hrv": 42, "temp": 36.8, "stress": 0.616, "emotion": "anxious", "abnormal": false, "hr_stable": true, "resp_stable": false, "score": 63}
+{"ts": "2026-04-01T16:29:59", "hr": 71, "resp": 13.3, "eda": 1.69, "hrv": 61, "temp": 36.5, "stress": 0.436, "emotion": "relaxed", "abnormal": false, "hr_stable": true, "resp_stable": true, "score": 78}
+{"ts": "2026-04-01T16:30:03", "hr": 74, "resp": 22, "eda": 1.33, "hrv": 34, "temp": 36.3, "stress": 0.222, "emotion": "calm", "abnormal": false, "hr_stable": false, "resp_stable": true, "score": 83}
+{"ts": "2026-04-01T16:30:24", "hr": 90, "resp": 11.8, "eda": 1.62, "hrv": 42, "temp": 37.2, "stress": 0.832, "emotion": "anxious", "abnormal": true, "hr_stable": true, "resp_stable": true, "score": 59}
+{"ts": "2026-04-01T16:30:37", "hr": 81, "resp": 13, "eda": 1.52, "hrv": 38, "temp": 36.8, "stress": 0.227, "emotion": "calm", "abnormal": false, "hr_stable": true, "resp_stable": true, "score": 83}
+{"ts": "2026-04-01T16:30:47", "hr": 95, "resp": 15.7, "eda": 1.02, "hrv": 65, "temp": 37.1, "stress": 0.795, "emotion": "anxious", "abnormal": true, "hr_stable": false, "resp_stable": true, "score": 63}
+{"ts": "2026-04-01T16:30:58", "hr": 78, "resp": 21.7, "eda": 1.04, "hrv": 63, "temp": 37.4, "stress": 0.27, "emotion": "calm", "abnormal": false, "hr_stable": false, "resp_stable": true, "score": 84}
+{"ts": "2026-04-01T16:32:08", "hr": 84, "resp": 13.3, "eda": 0.69, "hrv": 42, "temp": 37.1, "stress": 0.203, "emotion": "calm", "abnormal": false, "hr_stable": true, "resp_stable": true, "score": 84}
+{"ts": "2026-04-01T16:32:18", "hr": 86, "resp": 17.1, "eda": 0.5, "hrv": 43, "temp": 37.2, "stress": 0.534, "emotion": "relaxed", "abnormal": false, "hr_stable": true, "resp_stable": true, "score": 71}
+{"ts": "2026-04-01T16:32:34", "hr": 81, "resp": 13.4, "eda": 1.51, "hrv": 55, "temp": 37.1, "stress": 0.452, "emotion": "relaxed", "abnormal": false, "hr_stable": false, "resp_stable": true, "score": 74}
+{"ts": "2026-04-01T16:33:12", "hr": 95, "resp": 17.9, "eda": 1.08, "hrv": 60, "temp": 36.5, "stress": 0.45, "emotion": "relaxed", "abnormal": false, "hr_stable": true, "resp_stable": true, "score": 77}
+{"ts": "2026-04-01T16:33:23", "hr": 93, "resp": 21.9, "eda": 1.22, "hrv": 30, "temp": 37.3, "stress": 0.457, "emotion": "relaxed", "abnormal": false, "hr_stable": true, "resp_stable": false, "score": 70}
+{"ts": "2026-04-01T16:33:34", "hr": 95, "resp": 12.6, "eda": 0.26, "hrv": 49, "temp": 36.3, "stress": 0.457, "emotion": "relaxed", "abnormal": false, "hr_stable": true, "resp_stable": false, "score": 70}
+{"ts": "2026-04-01T16:33:45", "hr": 79, "resp": 21.6, "eda": 1.44, "hrv": 57, "temp": 36.7, "stress": 0.161, "emotion": "calm", "abnormal": false, "hr_stable": true, "resp_stable": true, "score": 86}

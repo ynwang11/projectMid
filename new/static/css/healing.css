@@ -263,7 +263,6 @@ html, body {
     filter: blur(4px);
 }
 
-<<<<<<< HEAD
 /* ---------- 中央陪伴宠物（与控制台宠物一致的“耳狐系”造型）---------- */
 .healing-pet-wrap {
     position: absolute;
@@ -273,23 +272,11 @@ html, body {
     height: min(26vmin, 150px);
     margin-left: calc(min(26vmin, 150px) / -2);
     margin-top: calc(min(26vmin, 150px) / -2);
-=======
-/* ---------- 精灵（动漫治愈风 · CSS 造型）---------- */
-.healing-angel {
-    position: absolute;
-    left: 50%;
-    top: 42%;
-    width: min(22vmin, 118px);
-    height: min(34vmin, 185px);
-    margin-left: calc(min(22vmin, 118px) / -2);
-    margin-top: calc(min(34vmin, 185px) / -2);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     z-index: 12;
     transform: translate3d(calc(var(--px) * 0.7px), calc(var(--py) * 0.55px), 0);
     animation: angelBreathe 5.2s ease-in-out infinite;
 }
 
-<<<<<<< HEAD
 .healing-pet {
     position: absolute;
     inset: 0;
@@ -484,15 +471,6 @@ html, body {
 @keyframes hugPulse {
     0%, 100% { transform: translateX(-50%) scaleX(0.92); opacity: 0.75; }
     50% { transform: translateX(-50%) scaleX(1.05); opacity: 0.95; }
-=======
-.healing-angel.angel--nod {
-    animation: angelNod 0.85s ease-in-out;
-}
-
-.angel-body {
-    position: absolute;
-    inset: 0;
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .angel-wings {
@@ -822,11 +800,7 @@ html, body {
     animation: seaweedGrow 2.4s ease-out forwards;
 }
 
-<<<<<<< HEAD
 /* ---------- 四角入口（放大 + 视觉融入环境）---------- */
-=======
-/* ---------- 四角入口 ---------- */
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 .function-entrances {
     position: absolute;
     inset: 0;
@@ -839,7 +813,6 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-<<<<<<< HEAD
     gap: 8px;
     padding: 14px 16px;
     border-radius: 18px;
@@ -849,17 +822,6 @@ html, body {
     pointer-events: auto;
     cursor: pointer;
     box-shadow: 0 14px 40px rgba(0, 20, 50, 0.28);
-=======
-    gap: 6px;
-    padding: 10px 12px;
-    border-radius: 18px;
-    background: rgba(15, 30, 60, 0.45);
-    border: 1px solid rgba(200, 230, 255, 0.28);
-    backdrop-filter: blur(10px);
-    pointer-events: auto;
-    cursor: pointer;
-    box-shadow: 0 8px 28px rgba(0, 20, 50, 0.35);
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -870,24 +832,14 @@ html, body {
 }
 
 .entrance-icon {
-<<<<<<< HEAD
     font-size: 1.55rem;
-=======
-    font-size: 1.25rem;
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     color: #dbeafe;
 }
 
 .entrance-label {
-<<<<<<< HEAD
     font-size: 0.8rem;
     color: rgba(226, 240, 255, 0.88);
     max-width: 96px;
-=======
-    font-size: 0.72rem;
-    color: rgba(226, 240, 255, 0.88);
-    max-width: 76px;
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     text-align: center;
     line-height: 1.2;
 }

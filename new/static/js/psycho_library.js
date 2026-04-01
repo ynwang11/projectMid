@@ -22,15 +22,9 @@
     let detailMap = {};
 
     const glowColors = {
-<<<<<<< HEAD
         primary: 'rgba(102, 126, 234, 0.75)',
         fill: 'rgba(102, 126, 234, 0.18)',
         grid: 'rgba(102, 126, 234, 0.14)'
-=======
-        primary: 'rgba(120, 200, 255, 0.85)',
-        fill: 'rgba(100, 160, 255, 0.2)',
-        grid: 'rgba(140, 180, 255, 0.12)'
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
     };
 
     function chartCommonOptions() {
@@ -39,11 +33,7 @@
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-<<<<<<< HEAD
                     labels: { color: '#4a5568', font: { size: 10 } }
-=======
-                    labels: { color: '#b8c8e8', font: { size: 10 } }
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                 }
             },
             scales: {}
@@ -75,11 +65,7 @@
         const doughnutOpts = {
             ...chartCommonOptions(),
             plugins: {
-<<<<<<< HEAD
                 legend: { position: 'bottom', labels: { color: '#4a5568', font: { size: 9 } } }
-=======
-                legend: { position: 'bottom', labels: { color: '#b8c8e8', font: { size: 9 } } }
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
             }
         };
 
@@ -99,11 +85,7 @@
                             'rgba(255, 160, 160, 0.75)'
                         ],
                         borderWidth: 2,
-<<<<<<< HEAD
                         borderColor: 'rgba(255, 255, 255, 0.55)'
-=======
-                        borderColor: 'rgba(255, 255, 255, 0.25)'
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                     }]
                 },
                 options: { ...doughnutOpts, cutout: '58%' }
@@ -131,11 +113,7 @@
                         r: {
                             angleLines: { color: glowColors.grid },
                             grid: { color: glowColors.grid },
-<<<<<<< HEAD
                             pointLabels: { color: '#4a5568', font: { size: 9 } },
-=======
-                            pointLabels: { color: '#a8b8d8', font: { size: 9 } },
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                             ticks: { display: false, backdropColor: 'transparent' },
                             suggestedMin: 0,
                             suggestedMax: 100
@@ -166,19 +144,11 @@
                     ...chartCommonOptions(),
                     scales: {
                         x: {
-<<<<<<< HEAD
                             ticks: { color: '#4a5568', maxTicksLimit: 8 },
                             grid: { color: glowColors.grid }
                         },
                         y: {
                             ticks: { color: '#4a5568' },
-=======
-                            ticks: { color: '#8898b8', maxTicksLimit: 8 },
-                            grid: { color: glowColors.grid }
-                        },
-                        y: {
-                            ticks: { color: '#8898b8' },
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                             grid: { color: glowColors.grid },
                             suggestedMin: 40,
                             suggestedMax: 100
@@ -207,15 +177,9 @@
                 options: {
                     ...chartCommonOptions(),
                     scales: {
-<<<<<<< HEAD
                         x: { ticks: { color: '#4a5568' }, grid: { color: glowColors.grid } },
                         y: {
                             ticks: { color: '#4a5568' },
-=======
-                        x: { ticks: { color: '#8898b8' }, grid: { color: glowColors.grid } },
-                        y: {
-                            ticks: { color: '#8898b8' },
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                             grid: { color: glowColors.grid },
                             suggestedMin: 45,
                             suggestedMax: 100
@@ -244,15 +208,9 @@
                 options: {
                     ...chartCommonOptions(),
                     scales: {
-<<<<<<< HEAD
                         x: { ticks: { color: '#4a5568' }, grid: { display: false } },
                         y: {
                             ticks: { color: '#4a5568' },
-=======
-                        x: { ticks: { color: '#8898b8' }, grid: { display: false } },
-                        y: {
-                            ticks: { color: '#8898b8' },
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
                             grid: { color: glowColors.grid },
                             suggestedMin: 30,
                             suggestedMax: 100

@@ -31,10 +31,7 @@
     let pollTimer = null;
     let longPressTimer = null;
     let modalMetricKey = 'hr';
-<<<<<<< HEAD
     let lastStoreAt = 0;
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 
     function sizeCanvas(cv) {
         if (!cv) return;
@@ -148,7 +145,6 @@
         setEmotionOrb(d.emotion);
         setFoxState(d);
         setAbnormalUi(!!d.abnormal);
-<<<<<<< HEAD
         // 暂存到长期报告馆：降低频率，避免频繁写入
         const now = Date.now();
         if (now - lastStoreAt > 10000) {
@@ -171,8 +167,6 @@
                 })
             }).catch(function () {});
         }
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
         if (vitalModal && vitalModal.classList.contains('is-open')) {
             const m = METRICS.find(function (x) { return x.key === modalMetricKey; });
             if (m && modalCanvas) {

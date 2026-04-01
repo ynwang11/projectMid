@@ -9,11 +9,8 @@
     --warm-shadow: rgba(120, 70, 30, 0.35);
     --text: #3d2918;
     --card-bg: linear-gradient(165deg, #f5e6d3 0%, #e8d4bc 48%, #dcc5a8 100%);
-<<<<<<< HEAD
     --scene-tint: 0deg;
     --plush-hue: 0deg;
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 *, *::before, *::after {
@@ -129,10 +126,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
     overflow: hidden;
     border: 3px solid #3d2820;
-<<<<<<< HEAD
     filter: hue-rotate(var(--scene-tint));
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .wall-pattern {
@@ -342,7 +336,6 @@
     height: 100%;
     cursor: pointer;
     pointer-events: auto;
-<<<<<<< HEAD
     filter: hue-rotate(var(--plush-hue)) saturate(1.05);
 }
 
@@ -489,8 +482,6 @@
     font-size: 0.68rem;
     color: #7a6048;
     opacity: 0.9;
-=======
->>>>>>> 58f242db85bb6e87a08ad5101ae2c58d00259194
 }
 
 .plush-body {
