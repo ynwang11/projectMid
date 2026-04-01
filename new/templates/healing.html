@@ -167,27 +167,43 @@
                 </div>
                 <div class="panel-content">
                     <div class="audio-list">
-                        <div class="audio-item" data-audio="breathing">
+                        <div class="audio-item" data-audio="learning" data-src="{{ url_for('static', filename='music/学习背景音.mp3') }}">
                             <div class="audio-icon"><i class="fas fa-wind"></i></div>
                             <div class="audio-info">
-                                <div class="audio-title">深度呼吸冥想</div>
-                                <div class="audio-duration">15分钟</div>
+                                <div class="audio-title">学习</div>
+                                <div class="audio-duration">本地音频</div>
                             </div>
                             <button class="play-btn"><i class="fas fa-play"></i></button>
                         </div>
-                        <div class="audio-item" data-audio="forest">
+                        <div class="audio-item" data-audio="mind-clear" data-src="{{ url_for('static', filename='music/意识放空背景音.mp3') }}">
                             <div class="audio-icon"><i class="fas fa-tree"></i></div>
                             <div class="audio-info">
-                                <div class="audio-title">森林心灵漫步</div>
-                                <div class="audio-duration">20分钟</div>
+                                <div class="audio-title">意识放空</div>
+                                <div class="audio-duration">本地音频</div>
                             </div>
                             <button class="play-btn"><i class="fas fa-play"></i></button>
                         </div>
-                        <div class="audio-item" data-audio="ocean">
+                        <div class="audio-item" data-audio="meditation-stream" data-src="{{ url_for('static', filename='music/打坐水流背景音.mp3') }}">
                             <div class="audio-icon"><i class="fas fa-water"></i></div>
                             <div class="audio-info">
-                                <div class="audio-title">海洋放松引导</div>
-                                <div class="audio-duration">25分钟</div>
+                                <div class="audio-title">打坐水流</div>
+                                <div class="audio-duration">本地音频</div>
+                            </div>
+                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                        </div>
+                        <div class="audio-item" data-audio="hippocampus-stim" data-src="{{ url_for('static', filename='music/海马体刺激背景音.mp3') }}">
+                            <div class="audio-icon"><i class="fas fa-brain"></i></div>
+                            <div class="audio-info">
+                                <div class="audio-title">海马体刺激</div>
+                                <div class="audio-duration">本地音频</div>
+                            </div>
+                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                        </div>
+                        <div class="audio-item" data-audio="soft-reading" data-src="{{ url_for('static', filename='music/舒缓阅读背景音.mp3') }}">
+                            <div class="audio-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="audio-info">
+                                <div class="audio-title">舒缓阅读</div>
+                                <div class="audio-duration">本地音频</div>
                             </div>
                             <button class="play-btn"><i class="fas fa-play"></i></button>
                         </div>
@@ -349,9 +365,7 @@
     <audio id="ambientMusic" loop>
         <source src="https://assets.mixkit.co/music/preview/mixkit-deep-ambient-478.mp3" type="audio/mpeg">
     </audio>
-    <audio id="breathingAudio">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-meditative-ambient-479.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="meditationAudio" preload="metadata"></audio>
     <audio id="rainAudio" loop>
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1248.mp3" type="audio/mpeg">
     </audio>
